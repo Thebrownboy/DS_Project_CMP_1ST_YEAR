@@ -8,9 +8,10 @@
 #include "..\Events\Event.h"
 #include"..\Generic_DS\PriorityQueue.h"
 
-
+#include<fstream>
 #include "Order.h"
-
+#include "Motorcycle.h"
+#include "..\Region.h"
 // it is the maestro of the project
 class Restaurant  
 {	
@@ -37,6 +38,10 @@ private:
 	//
 	// TODO: Add More Data Members As Needed
 	//
+	/*   start sir_sayed modification    */
+	Region Reg[REG_CNT];
+	int AutoPromotionlimit;
+
 
 public:
 	
@@ -65,6 +70,17 @@ public:
 	//
 	// TODO: Add More Member Functions As Needed
 	//
+
+
+/*   start sir_sayed modification    */
+
+	void Load();
+
+	Region*Get_region(int i);
+
+	void phase_one();
+
+/*   END sir_sayed modification    */
 
 };
 

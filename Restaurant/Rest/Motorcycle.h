@@ -23,6 +23,20 @@ public:
 	STATUS Get_Staus();
 	void Set_Status(STATUS);// the only data that will be changed  ;//added by (abdalla )
 	void Set_Speed(int);// for  bounus(//added by (abdalla ))
+
+	/*   start sir_sayed modification    */
+	Motorcycle();
+	void Set_ID(int id);
+	void Set_Type(ORD_TYPE type);
+
+	bool operator >(Motorcycle &Mo);
+	bool operator <(Motorcycle &Mo);
+	bool operator ==(Motorcycle &Mo);
+
+
+
+
+
 };
 
 #endif

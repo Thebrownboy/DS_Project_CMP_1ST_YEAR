@@ -7,6 +7,10 @@ Order::Order(int id, ORD_TYPE r_Type, REGION r_region)
 	Region = r_region;	
 }
 
+Order::Order()
+{
+}
+
 Order::~Order()
 {
 }
@@ -40,4 +44,19 @@ int Order::GetDistance() const
 void Order::Set_Type(ORD_TYPE Type )
 {
 	this->type = Type;
+}
+
+bool Order::operator<(Order & ord)
+{
+	return this->Priorty<ord.Priorty;
+}
+
+bool Order::operator>(Order & ord)
+{
+	return this->Priorty >ord.Priorty;
+}
+
+bool Order::operator==(Order & ord)
+{
+	return this->Priorty == ord.Priorty;
 }

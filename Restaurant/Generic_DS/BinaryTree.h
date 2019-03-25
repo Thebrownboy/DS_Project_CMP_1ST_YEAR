@@ -10,7 +10,7 @@ class BinaryTree
 	void Delete_elem(Treenode <Type >*, Treenode <Type >*);
 
 public:
-	void Insert(const Type& Data);
+	void Insert( Type& Data);
 	void Delete_max();
 	Type* Peek();
 	void display()const ;
@@ -43,7 +43,7 @@ inline Treenode<Type>* BinaryTree<Type>::Get_dep(Treenode<Type>* curr, Treenode<
 }
 
 template<class Type>
-inline void BinaryTree<Type>::Insert(const Type & Data)
+inline void BinaryTree<Type>::Insert( Type& Data)
 {
 	Treenode<Type>* curr = new Treenode<Type>();
 	curr->Set_data(Data);

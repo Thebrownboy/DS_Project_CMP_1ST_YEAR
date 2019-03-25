@@ -8,6 +8,7 @@ PromotionEvent::PromotionEvent(int Time , int ID , int EXmoney ):Event(Time ,ID 
 
 void PromotionEvent::Execute(Restaurant *)
 {
+
 }
 
 double PromotionEvent::GetEXmoney()

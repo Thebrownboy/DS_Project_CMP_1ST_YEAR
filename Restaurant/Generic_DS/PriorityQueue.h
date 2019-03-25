@@ -7,7 +7,7 @@ class PriorityQueue
 	BinaryTree<Type> Tree;
 public:
 	PriorityQueue();
-	void Enqueue(const Type& );
+	void Enqueue( Type& );
 	void Dequeue();
 	Type Peek()const ;
 	bool Is_Empty()const ;
@@ -19,7 +19,7 @@ inline PriorityQueue<Type>::PriorityQueue()
 }
 
 template<class Type>
-inline void PriorityQueue<Type>::Enqueue(const Type&  Data)
+inline void PriorityQueue<Type>::Enqueue( Type& Data)
 {
 	Tree.Insert(Data);
 }

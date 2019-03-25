@@ -15,14 +15,21 @@ protected:
 	double totalMoney;	//Total order money
 
 	int ArrTime, ServTime, FinishTime;	//arrival, service start, and finish times
-	
-	
+
+
 	//
 	// TODO: Add More Data Members As Needed
 	//
 
+	
+	/*Start sir_sayed modification*/
+		int Priorty;
+	/*End sir_sayed modification*/
+
 public:
-	Order(int ID, ORD_TYPE r_Type, REGION r_region);
+	Order(int , ORD_TYPE r_Type, REGION r_region);
+	Order();
+
 	virtual ~Order();
 
 	int GetID();
@@ -37,7 +44,12 @@ public:
 	//
 	// TODO: Add More Member Functions As Needed
 	//
-
+	/*Start sir_sayed modification*/
+	Order(int ID, ORD_TYPE r_Type, REGION r_region, int dist, double mon, int ArrTime);
+	bool operator <(Order &ord);
+	bool operator >(Order &ord);
+	bool operator ==(Order &ord);
+	/*End sir_sayed modification*/
 };
 
 #endif

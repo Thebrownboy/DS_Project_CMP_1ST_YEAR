@@ -51,3 +51,43 @@ void Motorcycle::Set_Speed(int speed )
 { 
 	this->speed = speed;
 }
+
+Motorcycle::Motorcycle()
+{
+	status = IDLE;
+}
+
+void Motorcycle::Set_ID(int id)
+{
+	ID = id;
+}
+
+void Motorcycle::Set_Type(ORD_TYPE type)
+{
+	this->type = type;
+}
+
+bool Motorcycle::operator >(Motorcycle & M)
+{
+	if (speed > M.Get_speed())
+		return true;
+	else
+		return false;
+	
+}
+
+bool Motorcycle::operator<(Motorcycle & Mo)
+{
+	if (speed < Mo.Get_speed())
+		return true;
+	else
+		return false;
+}
+
+bool Motorcycle::operator==(Motorcycle & Mo)
+{
+	if (speed == Mo.Get_speed())
+		return true;
+	else
+		return false;
+}

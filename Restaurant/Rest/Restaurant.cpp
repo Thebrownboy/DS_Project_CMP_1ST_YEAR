@@ -6,6 +6,8 @@ using namespace std;
 #include "Restaurant.h"
 #include "..\Events\ArrivalEvent.h"
 
+#include "..\Events\CancellationEvent.h"
+#include "..\Events\PromotionEvent.h"
 
 Restaurant::Restaurant() 
 {
@@ -29,7 +31,7 @@ void Restaurant::RunSimulation()
 		Silent_Execute();
 		break;
 	case MODE_DEMO:
-		Just_A_Demo();
+		phase_one();
 
 	};
 
@@ -212,6 +214,130 @@ Order * Restaurant::Getsilentorder()
 	Order* pOrd;
 	Silent.dequeue(pOrd);
 	return pOrd;
+}
+
+/*   start sir_sayed modification    */
+void Restaurant::Load()
+{
+	ifstream input;
+	pGUI->PrintMessage("Enter File Name: ");
+	string FileName = pGUI->GetString();
+	input.open(FileName + ".txt");
+
+	int SN, SF, SV;  // motorcycles speeds line 
+	int NumN, Numf, NumVip;//Num of motorcycle in each region 
+	
+		/*variables to help in read file*/
+	int numEvents;
+	char event;
+	int TimeStep;
+	char type;
+	int id;
+	int Distance;
+	double money;
+	double extra_money;
+	char Region;
+	Motorcycle**VIP;
+	Motorcycle**Norm;
+	Motorcycle**Froz;
+	Event*pEvent;
+
+		if (!input.is_open())
+		{
+			pGUI->PrintMessage("an error occured while loading try again");
+			return;
+		}
+		input >> SN >> SF >> SV;	// motorcycles speeds line
+
+		for (int i = 0; i < REG_CNT; i++)
+		{
+			input >> NumN >> Numf >> NumVip;
+			VIP = new				 Motorcycle*[NumVip];
+			Norm = new Motorcycle*[NumN];
+			Froz = new Motorcycle*[Numf];
+			
+			for (int j = 0; j < NumN; j++)
+			{
+				Norm[j] = new Motorcycle;
+				Norm[j]->Set_ID(j);
+				Norm[j]->Set_Type(TYPE_NRM);
+				Norm[j]->Set_Speed(SN);
+
+			}
+			for (int k = 0; k < Numf; k++)
+			{
+				Froz[k] = new Motorcycle;
+				Froz[k]->Set_ID(i+ NumN);
+				Froz[k]->Set_Type(TYPE_FROZ);
+				Froz[k]->Set_Speed(SF);
+
+			}
+			for (int l = 0; l < NumVip; l++)
+			{
+				VIP[l] = new Motorcycle;
+				VIP[l]->Set_ID(l+ NumN+ Numf);
+				VIP[l]->Set_Type(TYPE_VIP);
+				VIP[l]->Set_Speed(SV);
+
+			}
+			
+			Get_region(i)->Set_motors(NumN, Numf, NumVip, Norm, Froz, VIP);
+		}
+
+		input >> AutoPromotionlimit;
+
+		input >> numEvents;
+		for (int i = 0; i < numEvents; i++)
+		{
+			input >> event;
+
+			switch (event)
+			{
+			case 'R':
+			{
+				input >> TimeStep >> type >> id >> Distance >> money >> Region;
+				pEvent = new ArrivalEvent(TimeStep, type, id, Distance, money, Region);
+				AddEvent(pEvent);
+			}
+			case 'X':
+			{
+				input >> TimeStep >> id;
+				pEvent = new CancellationEvent(TimeStep, id);
+				AddEvent(pEvent);
+
+			}
+			case 'P':
+			{
+				input >> TimeStep >> id >> extra_money;
+				pEvent = new PromotionEvent(TimeStep, id, extra_money);
+				AddEvent(pEvent);
+			}
+			default:
+				{
+					pGUI->PrintMessage("you have to revise file format");
+					 break; 
+				}
+	
+
+			}
+
+
+
+		}
+
+}
+
+Region * Restaurant::Get_region(int i)
+{
+	return &Reg[i];
+}
+/*   END sir_sayed modification    */
+void Restaurant::phase_one()
+{
+	Load();
+	///////////////
+	/*siko task*/
+
 }
 
 
