@@ -46,9 +46,9 @@ public:
 	//
 	/*Start sir_sayed modification*/
 	Order(int ID, ORD_TYPE r_Type, REGION r_region, int dist, double mon, int ArrTime);
-	bool operator <(Order &ord);
-	bool operator >(Order &ord);
-	bool operator ==(Order &ord);
+	bool operator <(Order &ord)const ;
+	bool operator >(Order &ord)const ;
+	bool operator ==(Order &ord)const ;
 	/*End sir_sayed modification*/
 };
 

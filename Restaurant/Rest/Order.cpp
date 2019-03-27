@@ -46,17 +46,17 @@ void Order::Set_Type(ORD_TYPE Type )
 	this->type = Type;
 }
 
-bool Order::operator<(Order & ord)
+bool Order::operator<(Order & ord)const 
 {
 	return this->Priorty<ord.Priorty;
 }
 
-bool Order::operator>(Order & ord)
+bool Order::operator>(Order & ord)const 
 {
 	return this->Priorty >ord.Priorty;
 }
 
-bool Order::operator==(Order & ord)
+bool Order::operator==(Order & ord)const 
 {
 	return this->Priorty == ord.Priorty;
 }

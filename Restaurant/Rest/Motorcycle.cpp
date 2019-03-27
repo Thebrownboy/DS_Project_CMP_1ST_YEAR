@@ -67,7 +67,7 @@ void Motorcycle::Set_Type(ORD_TYPE type)
 	this->type = type;
 }
 
-bool Motorcycle::operator >(Motorcycle & M)
+bool Motorcycle::operator >(Motorcycle & M)const 
 {
 	if (speed > M.Get_speed())
 		return true;
@@ -76,7 +76,7 @@ bool Motorcycle::operator >(Motorcycle & M)
 	
 }
 
-bool Motorcycle::operator<(Motorcycle & Mo)
+bool Motorcycle::operator<(Motorcycle & Mo)const 
 {
 	if (speed < Mo.Get_speed())
 		return true;
@@ -84,7 +84,7 @@ bool Motorcycle::operator<(Motorcycle & Mo)
 		return false;
 }
 
-bool Motorcycle::operator==(Motorcycle & Mo)
+bool Motorcycle::operator==(Motorcycle & Mo)const 
 {
 	if (speed == Mo.Get_speed())
 		return true;

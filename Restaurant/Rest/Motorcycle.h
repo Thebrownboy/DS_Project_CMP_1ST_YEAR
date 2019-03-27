@@ -29,9 +29,9 @@ public:
 	void Set_ID(int id);
 	void Set_Type(ORD_TYPE type);
 
-	bool operator >(Motorcycle &Mo);
-	bool operator <(Motorcycle &Mo);
-	bool operator ==(Motorcycle &Mo);
+	bool operator >(Motorcycle &Mo)const;
+	bool operator <(Motorcycle &Mo)const ;
+	bool operator ==(Motorcycle &Mo)const ;
 
 
 
