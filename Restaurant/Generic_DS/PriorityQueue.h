@@ -11,6 +11,7 @@ public:
 	void Dequeue();
 	Type Peek()const ;
 	bool Is_Empty()const ;
+
 };
 
 template<class Type>
@@ -41,3 +42,5 @@ inline bool PriorityQueue<Type>::Is_Empty()const
 {
 	return Tree.Is_empty();
 }
+
+

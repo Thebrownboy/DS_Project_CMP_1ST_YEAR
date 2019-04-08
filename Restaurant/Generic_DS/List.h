@@ -9,9 +9,13 @@ class List
 public:
 	List();
 	void Insert(const Type& );
-	LinkedNode<Type>* search(const  Type& )const ;
-	bool Delete(const Type& );
+	LinkedNode<Type>* search(const  Type & )const ;
+	bool Delete(const Type&);
 	void dispaly()const ;
+	Type get_first();
+	bool is_empty();
+	List(const List<Type >&);
+	void operator=(const List <Type >&);
 };
 
 template<class Type>
@@ -45,6 +49,31 @@ inline bool List<Type>::Delete(const Type&  Data)
 	if (Head == NULL)
 		return false;
 
+	if (std::is_pointer<Type>::value) 
+	{
+		if (*(Head->Get_data()) == *Data)
+		{
+			LinkedNode <Type >*curr = Head;
+			Head = Head->Get_Next();
+			delete curr;
+			curr = NULL;
+			return true;
+		}
+		LinkedNode <Type >*curr = Head;
+		while (curr->Get_Next())
+		{
+			if (*(curr->Get_Next()->Get_data()) == *Data)
+			{
+				LinkedNode<Type >* del = curr->Get_Next();
+				curr->Set_Next(del->Get_Next());
+				delete del;
+				del = NULL;
+				return true;
+			}
+			curr = curr->Get_Next();
+		}
+		return false;
+	}
 	if (Head->Get_data() == Data)
 	{
 		LinkedNode <Type >*curr = Head;
@@ -81,6 +110,47 @@ inline void List<Type>::dispaly()const
 
 	}
 	cout << endl;
+}
+
+template<class Type>
+inline Type List<Type>::get_first()
+{
+	return Head->Get_data();
+}
+
+template<class Type>
+inline bool List<Type>::is_empty()
+{
+	if (Head) 
+	{
+		return false;
+	}
+	return true;
+}
+
+template<class Type>
+inline List<Type>::List(const List<Type>& Ptr )
+{
+	Head = NULL;
+	LinkedNode <Type > *curr = Ptr.Head;
+	while (curr != NULL) 
+	{
+		this->Insert(curr->Get_data());
+		curr = curr->Get_Next();
+	
+	}
+}
+
+template<class Type>
+inline void List<Type>::operator=(const List<Type>&)
+{
+
+	LinkedNode <Type >* curr = Ptr.Head;
+	while (curr != NULL)
+	{
+		this->Insert(curr->Get_data());
+		curr = curr->Get_Next();
+	}
 }
 
 template<class Type>

@@ -29,20 +29,42 @@ void Region::Set_motors(int NumN, int NumF, int NumVIP, Motorcycle ** Norm, Moto
 
 }
 
-void Region::insert_viporder(Order &ord)
+void Region::insert_viporder(Order * ord)
 {
 	VipOr.Enqueue(ord);
 }
 
-void Region::insert_frozorder(Order & ord)
+void Region::insert_frozorder(Order  *ord)
 {
 	FrozOr.enqueue(ord);
 	
 }
 
-void Region::insert_norm(Order & ord)
+void Region::insert_norm(Order * ord)
 {
 	NormOr.Insert(ord);
+}
+
+bool Region::deleteoreder(int ID)
+{
+	Order *dum=new Order();
+	dum->setID(ID);
+	return NormOr.Delete(dum);
+}
+
+PriorityQueue<Order*> Region::getViPords()
+{
+	return VipOr;
+}
+
+Queue<Order*> Region::getFrzOrds()
+{
+	return FrozOr;
+}
+
+List<Order*> Region::getNormOrds()
+{
+	return  NormOr;
 }
 
 

@@ -8,15 +8,19 @@ class BinaryTree
 	Treenode<Type>* Get_dep(Treenode<Type> *, Treenode<Type>*&);
 	void displayo(Treenode<Type>*)const ;
 	void Delete_elem(Treenode <Type >*, Treenode <Type >*);
+	void insert(Treenode<Type>*);
+
 
 public:
 	void Insert( const Type& Data);
 	void Delete_max();
-	Type* Peek();
+	Type Peek()const;
 	void display()const ;
 	bool Is_empty()const ;
 	bool Delete(const Type& );
 	BinaryTree();
+	BinaryTree(const BinaryTree<Type>&);
+	void operator=( const BinaryTree<Type>&);
 };
 
 template<class Type>
@@ -102,25 +106,21 @@ inline void BinaryTree<Type>::Delete_max()
 }
 
 template<class Type>
-inline Type* BinaryTree<Type>::Peek()
+inline Type BinaryTree<Type>::Peek()const 
 {
 	Treenode<Type>* curr = Root;
 	if (Root == NULL)
 	{
-		return nullptr;
+		abort(); 
 	}
 	if (Root->Get_right() == NULL)
 	{
-		Type Temp = Root->Get_data();
-		Type* ptr = &Temp;
-		return ptr;
+		return Root->Get_data();
 	}
 	while (curr->Get_right())
 		curr = curr->Get_right();
 
-	Type Temp = curr->Get_data();
-	Type* ptr = &Temp;
-	return ptr;
+	return curr->Get_data();
 }
 
 template<class Type>
@@ -204,6 +204,19 @@ inline BinaryTree<Type>::BinaryTree()
 }
 
 template<class Type>
+inline BinaryTree<Type>::BinaryTree( const BinaryTree<Type> & tree)
+{
+	Root = NULL;// here if  i don't  amake it with NULL it will be undefiend bc it doesn't enter the defualt constructor 
+	this->insert(tree.Root);
+}
+
+template<class Type>
+inline void BinaryTree<Type>::operator=(const  BinaryTree<Type>& tree)
+{
+	this->insert(tree.Root);
+}
+
+template<class Type>
 inline void BinaryTree<Type>::displayo(Treenode<Type>* curr)const 
 {
 	if (curr == NULL)
@@ -278,4 +291,16 @@ inline void BinaryTree<Type>::Delete_elem(Treenode<Type>* curr, Treenode <Type >
 	}
 	temp->Set_data(curr->Get_data());
 	Delete_elem(curr, prev);
+}
+
+template<class Type>
+inline void BinaryTree<Type>::insert(Treenode<Type>* node )
+{
+	if (node == NULL) 
+	{
+		return; 
+	}
+	Insert(node->Get_data());
+	insert(node->Get_left());
+	insert(node->Get_right());
 }

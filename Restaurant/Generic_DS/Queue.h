@@ -56,7 +56,9 @@ public :
 	bool isEmpty() const ;
 	bool enqueue(const T& newEntry);
 	bool dequeue(T& frntEntry);  
-	bool peekFront(T& frntEntry)  const;	
+	bool peekFront(T& frntEntry)  const;
+	Queue(const Queue &);
+	void operator=(const Queue &);
 	~Queue();
 };
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -165,10 +167,42 @@ bool Queue<T>:: peekFront(T& frntEntry) const
 	return true;
 
 }
+template<typename T>
+inline Queue<T>::Queue(const Queue & leftside)
+{
+	backPtr = frontPtr = nullptr;
+	Node <T>* curr = leftside.frontPtr; 
+	while (curr != NULL)
+	{
+		this->enqueue(curr->getItem());
+		curr = curr->getNext();
+	}
+
+}
+template<typename T>
+inline void Queue<T>::operator=(const Queue & leftside)
+{
+	Node <T>* curr = leftside.frontPtr;
+	while (curr != NULL)
+	{
+		this->enqueue(curr->getItem());
+		curr = curr->getNext();
+	}
+}
 ///////////////////////////////////////////////////////////////////////////////////
 
 template <typename T>
 Queue<T>::~Queue()
 {
+	while (frontPtr) 
+	{
+		Node<T >* curr = frontPtr;
+		frontPtr = frontPtr->getNext();
+		delete curr;
+
+	}
+	frontPtr = NULL;
+	backPtr = NULL;
+
 }
 #endif

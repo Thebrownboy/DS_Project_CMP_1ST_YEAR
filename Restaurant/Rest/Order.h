@@ -27,8 +27,9 @@ protected:
 	/*End sir_sayed modification*/
 
 public:
-	Order(int , ORD_TYPE r_Type, REGION r_region);
+	
 	Order();
+
 
 	virtual ~Order();
 
@@ -44,8 +45,9 @@ public:
 	//
 	// TODO: Add More Member Functions As Needed
 	//
+	void setID(int i);
 	/*Start sir_sayed modification*/
-	Order(int ID, ORD_TYPE r_Type, REGION r_region, int dist, double mon, int ArrTime);
+	Order(int ID, ORD_TYPE r_Type, REGION r_region, int distance , double monney , int Arr_Time);
 	bool operator <(Order &ord)const ;
 	bool operator >(Order &ord)const ;
 	bool operator ==(Order &ord)const ;

@@ -37,7 +37,45 @@ void ArrivalEvent::Execute(Restaurant* pRest)
 	//This function should create and order and and fills its data 
 	// Then adds it to normal, frozen, or VIP order lists that you will create in phase1
 
-
+	Order *PO = new Order(this->OrderID, this->OrdType, this->OrdRegion,this->OrdDistance,this->OrdMoney,this->EventTime);
+	if (this->OrdRegion == 0) 
+	{
+		if (this->OrdType == 0)
+			pRest->Get_region(0)->insert_norm(PO);
+		else if (this->OrdType == 1)
+			pRest->Get_region(0)->insert_frozorder(PO);
+		else if (this->OrdType == 2)
+			pRest->Get_region(0)->insert_viporder(PO);
+	
+	}
+	else if (this->OrdRegion == 1)
+	{
+		if (this->OrdType == 0)
+			pRest->Get_region(1)->insert_norm(PO);
+		else if (this->OrdType == 1)
+			pRest->Get_region(1)->insert_frozorder(PO);
+		else if (this->OrdType == 2)
+			pRest->Get_region(1)->insert_viporder(PO);
+	
+	}
+	else if (this->OrdRegion == 2) 
+	{
+		if (this->OrdType == 0)
+			pRest->Get_region(2)->insert_norm(PO);
+		else if (this->OrdType == 1)
+			pRest->Get_region(2)->insert_frozorder(PO);
+		else if (this->OrdType == 2)
+			pRest->Get_region(2)->insert_viporder(PO);
+	}
+	else
+	{
+		if (this->OrdType == 0)
+			pRest->Get_region(3)->insert_norm(PO);
+		else if (this->OrdType == 1)
+			pRest->Get_region(3)->insert_frozorder(PO);
+		else if (this->OrdType == 2)
+			pRest->Get_region(3)->insert_viporder(PO);
+	}
 	/*Order*pOrder = new Order(OrderID, OrdType, OrdRegion, OrdDistance, OrdMoney, EventTime);
 	
 	if (OrdType == TYPE_NRM)

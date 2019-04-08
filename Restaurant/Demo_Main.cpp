@@ -1,6 +1,7 @@
 //#include "Drawing.h"
 #include "Rest\Restaurant.h"
 #include "GUI\GUI.h"
+#include"Generic_DS/List.h"
 
 int main()
 {
@@ -9,6 +10,11 @@ int main()
 	pRest->RunSimulation();
 	
 	delete pRest;
-	
+
 	return 0;
+	
+
+	
+	
+	
 }

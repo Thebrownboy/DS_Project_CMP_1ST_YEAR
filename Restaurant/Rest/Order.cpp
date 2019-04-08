@@ -1,11 +1,26 @@
 #include "Order.h"
 
-Order::Order(int id, ORD_TYPE r_Type, REGION r_region)
+void Order::setID(int i)
+{
+	ID = i;
+}
+
+Order::Order(int id, ORD_TYPE r_Type, REGION r_region,int distance  ,double money  ,int Arr_time  )
 {
 	ID = (id>0&&id<1000)?id:0;	//1<ID<999
 	type = r_Type;
 	Region = r_region;	
+	if (r_Type == 2) //added by abdalla mahmoud 
+	{
+		Priorty = (int(4 * (((distance*ArrTime*money) / 3) + (((distance + Arr_time + money)*Arr_time*money*distance)) / (money + distance)))) % 100;
+
+	}
+	else
+		Priorty = 0;// it doesn't matter but I should give the variable  a value 
+
 }
+
+
 
 Order::Order()
 {
@@ -58,5 +73,5 @@ bool Order::operator>(Order & ord)const
 
 bool Order::operator==(Order & ord)const 
 {
-	return this->Priorty == ord.Priorty;
+	return (this->ID == ord.ID);
 }

@@ -22,13 +22,12 @@ void Restaurant::RunSimulation()
 	switch (mode)	//Add a function for each mode in next phases
 	{
 	case MODE_INTR:
-		Interactive_Execute();
 		break;
 	case MODE_STEP:
-		Step_Execute();
+		
 		break;
 	case MODE_SLNT:
-		Silent_Execute();
+		
 		break;
 	case MODE_DEMO:
 		phase_one();
@@ -37,32 +36,6 @@ void Restaurant::RunSimulation()
 
 }
 
-void Restaurant::Interactive_Execute()
-{
-}
-
-void Restaurant::Step_Execute()
-{
-}
-
-void Restaurant::Silent_Execute()
-{
-}
-
-void Restaurant::Add_to_Interactive_Queue(Order * ORD)
-{
-	Interactive.enqueue(ORD);
-}
-
-void Restaurant::Add_to_step_Queue(Order * ORD)
-{
-	Step_by_step.enqueue(ORD);
-}
-
-void Restaurant::Add_to_silent_Queue(Order * ORD)
-{
-	Silent.enqueue(ORD);
-}
 
 
 
@@ -83,7 +56,8 @@ void Restaurant::ExecuteEvents(int CurrentTimeStep)
 
 		pE->Execute(this);
 		EventsQueue.dequeue(pE);	//remove event from the queue
-		delete pE;		//deallocate event object from memory
+		delete pE;		//deallocate event object from memory//there is an abnormal thing 
+		
 	}
 
 }
@@ -182,39 +156,8 @@ void Restaurant::Just_A_Demo()
 }
 ////////////////
 
-void Restaurant::AddtoDemoQueue(Order *pOrd)
-{
-	DEMO_Queue.enqueue(pOrd);
-}
 
-Order* Restaurant::getDemoOrder()
-{
-	Order* pOrd;
-	DEMO_Queue.dequeue(pOrd);
-	return pOrd;
 
-}
-
-Order * Restaurant::getIterOrder()
-{
-	Order* pOrd;
-	Interactive.dequeue(pOrd);
-	return pOrd;
-}
-
-Order * Restaurant::GetStepOrder()
-{
-	Order* pOrd;
-	Step_by_step.dequeue(pOrd);
-	return pOrd;
-}
-
-Order * Restaurant::Getsilentorder()
-{
-	Order* pOrd;
-	Silent.dequeue(pOrd);
-	return pOrd;
-}
 
 /*   start sir_sayed modification    */
 void Restaurant::Load()
@@ -298,19 +241,21 @@ void Restaurant::Load()
 				input >> TimeStep >> type >> id >> Distance >> money >> Region;
 				pEvent = new ArrivalEvent(TimeStep, type, id, Distance, money, Region);
 				AddEvent(pEvent);
+				break;// added by ABDALLA 
 			}
 			case 'X':
 			{
 				input >> TimeStep >> id;
 				pEvent = new CancellationEvent(TimeStep, id);
 				AddEvent(pEvent);
-
+				break;// added by ABDALLA 
 			}
 			case 'P':
 			{
 				input >> TimeStep >> id >> extra_money;
 				pEvent = new PromotionEvent(TimeStep, id, extra_money);
 				AddEvent(pEvent);
+				break;// added by ABDALLA 
 			}
 			default:
 				{
@@ -336,7 +281,54 @@ void Restaurant::phase_one()
 {
 	Load();
 	///////////////
-	/*siko task*/
+	/*Psycho task*/
+	int CurrentTimeStep = 1;
+	//as long as events queue is not empty yet
+	while (!EventsQueue.isEmpty())
+	{
+		//print current timestep
+		char timestep[10];
+		itoa(CurrentTimeStep, timestep, 10);
+		pGUI->PrintMessage(timestep);
+
+
+		ExecuteEvents(CurrentTimeStep);	//execute all events at current time step
+										//The above line may add new orders to the DEMO_Queue
+
+										//Let's draw all arrived orders by passing them to the GUI to draw
+		Order* dum;
+		for (int i = 0; i < 4; ++i) {
+			PriorityQueue < Order* > vip = this->Get_region(i)->getViPords();
+			while (!vip.Is_Empty()) {
+				dum=vip.Peek();
+				vip.Dequeue();
+				ActiveOrds.enqueue(dum);
+			}
+			Queue<Order*> frz = this->Get_region(i)->getFrzOrds();
+			while (!frz.isEmpty()) {
+				frz.dequeue(dum);
+				ActiveOrds.enqueue(dum);
+			}
+			List <Order*> norm = this->Get_region(i)->getNormOrds();
+			while (!norm.is_empty())
+			{
+				dum = norm.get_first();
+				ActiveOrds.enqueue(dum);
+				norm.Delete(dum); /// back
+			}
+
+
+		}
+		
+		while (ActiveOrds.dequeue(dum))
+		{
+			pGUI->AddOrderForDrawing(dum);
+			pGUI->UpdateInterface();
+		}
+		Sleep(1000);
+		ActiveOrds.~Queue();
+		CurrentTimeStep++;	//advance timestep
+	}
 
 }
 

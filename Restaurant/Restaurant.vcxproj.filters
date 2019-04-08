@@ -130,7 +130,7 @@
       <Filter>Generic_DS</Filter>
     </ClInclude>
     <ClInclude Include="Region.h">
-      <Filter>Restaurant</Filter>
+      <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -264,7 +264,9 @@
     <ClCompile Include="Events\PromotionEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
-    <ClCompile Include="Region.cpp" />
+    <ClCompile Include="Region.cpp">
+      <Filter>Restaurant</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMUgraphicsLib\Manual.txt">
