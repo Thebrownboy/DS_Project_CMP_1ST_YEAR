@@ -41,7 +41,9 @@ public:
 	void SetDistance(int d);
 	int GetDistance() const;
 	void Set_Type(ORD_TYPE);// it will be used if the promotion Event happens 
-
+	void setMoney(double m);
+	double  getMoney() const;
+	void calcPriority();
 	//
 	// TODO: Add More Member Functions As Needed
 	//

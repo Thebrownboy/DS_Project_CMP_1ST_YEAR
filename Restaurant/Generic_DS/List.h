@@ -11,6 +11,7 @@ public:
 	void Insert(const Type& );
 	LinkedNode<Type>* search(const  Type & )const ;
 	bool Delete(const Type&);
+	///   bool Pick(Type &);
 	void dispaly()const ;
 	Type get_first();
 	bool is_empty();
@@ -169,3 +170,4 @@ inline LinkedNode<Type>* List<Type>::search(const Type&  Data) const
 	}
 	return NULL;
 }
+

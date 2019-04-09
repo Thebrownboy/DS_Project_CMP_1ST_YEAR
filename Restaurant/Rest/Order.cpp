@@ -61,6 +61,16 @@ void Order::Set_Type(ORD_TYPE Type )
 	this->type = Type;
 }
 
+void Order::setMoney(double m)
+{
+	totalMoney = m;
+}
+
+double Order::getMoney() const
+{
+	return totalMoney;
+}
+
 bool Order::operator<(Order & ord)const 
 {
 	return this->Priorty<ord.Priorty;

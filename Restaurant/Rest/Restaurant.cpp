@@ -295,8 +295,8 @@ void Restaurant::phase_one()
 		ExecuteEvents(CurrentTimeStep);	//execute all events at current time step
 										//The above line may add new orders to the DEMO_Queue
 
-										//Let's draw all arrived orders by passing them to the GUI to draw
-		Order* dum;
+		Order* dum;							//Let's draw all arrived orders by passing them to the GUI to draw
+		/*
 		for (int i = 0; i < 4; ++i) {
 			PriorityQueue < Order* > vip = this->Get_region(i)->getViPords();
 			while (!vip.Is_Empty()) {
@@ -319,6 +319,7 @@ void Restaurant::phase_one()
 
 
 		}
+		*/
 		
 		while (ActiveOrds.dequeue(dum))
 		{
