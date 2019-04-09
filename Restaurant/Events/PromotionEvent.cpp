@@ -9,12 +9,13 @@ PromotionEvent::PromotionEvent(int Time , int ID , int EXmoney ):Event(Time ,ID 
 void PromotionEvent::Execute(Restaurant *PRest)
 {
 	int reg;
-	Order* Ord;
+	Order* Ord=new Order() ;
+	Ord->setID(OrderID);
 	for (int i = 0; i < 4; i++)
 	{
 		if (PRest->Get_region(i)->PickOrd(Ord)) {
 			reg = i;
-			return;
+			break;
 		}	
 	}
 	Ord->setMoney(Ord->getMoney() + Exmoney);
