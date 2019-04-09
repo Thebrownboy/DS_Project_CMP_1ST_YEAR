@@ -16,6 +16,7 @@ public:
 	bool is_empty();
 	List(const List<Type >&);
 	void operator=(const List <Type >&);
+	bool  Pick(Type &);
 };
 
 template<class Type>
@@ -151,6 +152,67 @@ inline void List<Type>::operator=(const List<Type>&)
 		this->Insert(curr->Get_data());
 		curr = curr->Get_Next();
 	}
+}
+
+template<class Type>
+inline bool List<Type>::Pick( Type & Data)
+{
+	if (Head == NULL)
+		return false;
+
+	if (std::is_pointer<Type>::value)
+	{
+		if (*(Head->Get_data()) == *Data)
+		{
+			Data = Head->Get_data();
+			LinkedNode <Type >*curr = Head;
+			Head = Head->Get_Next();
+			delete curr;
+			curr = NULL;
+			return true;
+		}
+		LinkedNode <Type >*curr = Head;
+		while (curr->Get_Next())
+		{
+			if (*(curr->Get_Next()->Get_data()) == *Data)
+			{
+				Data = curr->Get_Next()->Get_data();
+				LinkedNode<Type >* del = curr->Get_Next();
+				curr->Set_Next(del->Get_Next());
+				delete del;
+				del = NULL;
+				return true;
+			}
+			curr = curr->Get_Next();
+		}
+		return false;
+	}
+	if (Head->Get_data() == Data)
+	{
+		Data = Head->Get_data();
+		LinkedNode <Type >*curr = Head;
+		Head = Head->Get_Next();
+		delete curr;
+		curr = NULL;
+		return true;
+	}
+	LinkedNode <Type >*curr = Head;
+	while (curr->Get_Next())
+	{
+		if (curr->Get_Next()->Get_data() == Data)
+		{
+			Data = curr->Get_Next()->Get_data();
+			LinkedNode<Type >* del = curr->Get_Next();
+			curr->Set_Next(del->Get_Next());
+			delete del;
+			del = NULL;
+			return true;
+		}
+		curr = curr->Get_Next();
+	}
+	return false;
+}
+
 }
 
 template<class Type>
