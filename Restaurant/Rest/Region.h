@@ -18,7 +18,7 @@ class Region
 	PriorityQueue <Motorcycle > FrozMoto;
 	PriorityQueue <Motorcycle > NormMoto;
 	int NumVIPMoto, NumFrozMoto, NumNormMoto;
-	 
+	int NumVIPOrd, NumFrozOrd, NumNormOrd;
 	
 
 
@@ -39,6 +39,10 @@ public:
 	List<Order*> getNormOrds();
 	bool PickOrd(Order* &Or);
 	/*  END sir_sayed modification    */
+	void Delete_from_each_one();// phase one 
+	bool AssignNorm();
+	bool AssignVIP();
+	bool AssignFroz();
 	~Region();
 };
 

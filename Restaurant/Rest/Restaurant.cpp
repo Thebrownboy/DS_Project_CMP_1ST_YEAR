@@ -312,7 +312,7 @@ void Restaurant::phase_one()
 			List <Order*> norm = this->Get_region(i)->getNormOrds();
 			while (!norm.is_empty())
 			{
-				dum = norm.get_first();
+				 norm.get_first(dum);
 				ActiveOrds.enqueue(dum);
 				norm.Delete(dum); /// back
 			}
@@ -326,7 +326,56 @@ void Restaurant::phase_one()
 			pGUI->AddOrderForDrawing(dum);
 			pGUI->UpdateInterface();
 		}
+		
 		Sleep(1000);
+		pGUI->ResetDrawingList();
+		pGUI->UpdateInterface();
+		for (int i = 0; i < 4; i++) 
+		{
+			this->Get_region(i)->Delete_from_each_one();
+		
+		}
+		for (int i = 0; i < 4; ++i) {
+			PriorityQueue < Order* > vip = this->Get_region(i)->getViPords();
+			while (!vip.Is_Empty()) {
+				dum = vip.Peek();
+				vip.Dequeue();
+				ActiveOrds.enqueue(dum);
+			}
+			Queue<Order*> frz = this->Get_region(i)->getFrzOrds();
+			while (!frz.isEmpty()) {
+				frz.dequeue(dum);
+				ActiveOrds.enqueue(dum);
+			}
+			List <Order*> norm = this->Get_region(i)->getNormOrds();
+			while (!norm.is_empty())
+			{
+				norm.get_first(dum);
+				ActiveOrds.enqueue(dum);
+				norm.Delete(dum); /// back
+			}
+
+
+		}
+
+		while (ActiveOrds.dequeue(dum))
+		{
+			pGUI->AddOrderForDrawing(dum);
+			pGUI->UpdateInterface();
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
 		pGUI->ResetDrawingList();
 		CurrentTimeStep++;	//advance timestep
 	}

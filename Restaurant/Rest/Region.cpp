@@ -4,6 +4,7 @@
 
 Region::Region()
 {
+	NumNormOrd = NumFrozOrd = NumVIPOrd = 0;
 }
 
 void Region::Set_motors(int NumN, int NumF, int NumVIP, Motorcycle ** Norm, Motorcycle ** FROZ, Motorcycle ** VIP)
@@ -32,17 +33,21 @@ void Region::Set_motors(int NumN, int NumF, int NumVIP, Motorcycle ** Norm, Moto
 void Region::insert_viporder(Order * ord)
 {
 	VipOr.Enqueue(ord);
+	this->NumVIPOrd++;
+	
 }
 
 void Region::insert_frozorder(Order  *ord)
 {
 	FrozOr.enqueue(ord);
+	this->NumFrozOrd++;
 	
 }
 
 void Region::insert_norm(Order * ord)
 {
 	NormOr.Insert(ord);
+	this->NumNormOrd++;
 }
 
 bool Region::deleteoreder(int ID)
@@ -72,6 +77,42 @@ bool Region::PickOrd(Order* & Or)
 	return this->NormOr.Pick(Or);
 }
 
+
+void Region::Delete_from_each_one()
+{
+	AssignFroz();
+	AssignNorm();
+	AssignVIP();
+}
+
+bool Region::AssignNorm()
+{
+	if (NumNormOrd == 0) return 0;
+	Order * top;
+	this->NormOr.get_first(top);
+	NumNormOrd--;
+	this->NormOr.Delete(top);
+	return true;
+}
+
+bool Region::AssignVIP()
+{
+	if (NumVIPOrd==0)
+		return false;
+	VipOr.Dequeue();
+	NumVIPOrd--;
+	return true;
+}
+
+bool Region::AssignFroz()
+{
+	if (NumFrozOrd == 0) return 0;
+	Order * ord;
+	this->FrozOr.peekFront(ord);
+	FrozOr.dequeue(ord);
+	return true;
+
+}
 
 Region::~Region()
 {

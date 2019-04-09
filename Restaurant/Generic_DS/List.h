@@ -13,7 +13,7 @@ public:
 	bool Delete(const Type&);
 	///   bool Pick(Type &);
 	void dispaly()const ;
-	Type get_first();
+	bool  get_first(Type & );
 	bool is_empty();
 	List(const List<Type >&);
 	void operator=(const List <Type >&);
@@ -115,9 +115,12 @@ inline void List<Type>::dispaly()const
 }
 
 template<class Type>
-inline Type List<Type>::get_first()
+inline bool  List<Type>::get_first( Type & Data )
 {
-	return Head->Get_data();
+	if (!Head)
+		return false;
+	Data= Head->Get_data();
+	return true;
 }
 
 template<class Type>
