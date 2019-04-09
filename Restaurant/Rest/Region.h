@@ -1,10 +1,10 @@
 #pragma once
-#include"Generic_DS\PriorityQueue.h"
-#include"Rest\Motorcycle.h"
-#include"Rest\Order.h"
-#include"Generic_DS\Queue.h"
-#include"Generic_DS/List.h"
-#include"Generic_DS/Queue.h"
+#include"..\Generic_DS\PriorityQueue.h"
+#include"..\Rest\Motorcycle.h"
+#include"..\Rest\Order.h"
+#include"..\Generic_DS\Queue.h"
+#include"..\Generic_DS/List.h"
+#include"..\Generic_DS/Queue.h"
 
 class Region
 { 
@@ -37,7 +37,7 @@ public:
 	PriorityQueue<Order*> getViPords();
 	Queue<Order*> getFrzOrds();
 	List<Order*> getNormOrds();
-
+	bool PickOrd(Order* &Or);
 	/*  END sir_sayed modification    */
 	~Region();
 };

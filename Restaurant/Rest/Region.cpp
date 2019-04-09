@@ -67,6 +67,11 @@ List<Order*> Region::getNormOrds()
 	return  NormOr;
 }
 
+bool Region::PickOrd(Order* & Or)
+{
+	return this->NormOr.Pick(Or);
+}
+
 
 Region::~Region()
 {

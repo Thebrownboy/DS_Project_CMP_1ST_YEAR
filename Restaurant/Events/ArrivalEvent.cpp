@@ -40,12 +40,12 @@ void ArrivalEvent::Execute(Restaurant* pRest)
 	Order *PO = new Order(this->OrderID, this->OrdType, this->OrdRegion,this->OrdDistance,this->OrdMoney,this->EventTime);
 	
 		if (this->OrdType == 0)
-				pRest->Get_region(OrdRegion)->insert_norm(PO);
+				pRest->Get_region(this->OrdRegion)->insert_norm(PO);
 		else if (this->OrdType == 1)
-				pRest->Get_region(OrdRegion)->insert_frozorder(PO);
+				pRest->Get_region(this->OrdRegion)->insert_frozorder(PO);
 		else if (this->OrdType == 2)
-				pRest->Get_region(OrdRegion)->insert_viporder(PO);
-			
+				pRest->Get_region(this->OrdRegion)->insert_viporder(PO);
+		
 }
 	
 	///*if (this->OrdRegion == 0) 

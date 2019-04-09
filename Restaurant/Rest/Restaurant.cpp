@@ -296,7 +296,7 @@ void Restaurant::phase_one()
 										//The above line may add new orders to the DEMO_Queue
 
 		Order* dum;							//Let's draw all arrived orders by passing them to the GUI to draw
-		/*
+		
 		for (int i = 0; i < 4; ++i) {
 			PriorityQueue < Order* > vip = this->Get_region(i)->getViPords();
 			while (!vip.Is_Empty()) {
@@ -319,7 +319,7 @@ void Restaurant::phase_one()
 
 
 		}
-		*/
+		
 		
 		while (ActiveOrds.dequeue(dum))
 		{
@@ -327,7 +327,7 @@ void Restaurant::phase_one()
 			pGUI->UpdateInterface();
 		}
 		Sleep(1000);
-		ActiveOrds.~Queue();
+		pGUI->ResetDrawingList();
 		CurrentTimeStep++;	//advance timestep
 	}
 

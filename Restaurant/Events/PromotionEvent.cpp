@@ -12,11 +12,15 @@ void PromotionEvent::Execute(Restaurant *PRest)
 	Order* Ord;
 	for (int i = 0; i < 4; i++)
 	{
-		if (PRest->Get_region(i)->deleteoreder(this->OrderID)) {
+		if (PRest->Get_region(i)->PickOrd(Ord)) {
 			reg = i;
 			return;
 		}	
 	}
+	Ord->setMoney(Ord->getMoney() + Exmoney);
+	Ord->Set_Type(TYPE_VIP);
+	Ord->calcPriority();
+
 	PRest->Get_region(reg)->insert_viporder(Ord);
 	//PRest->ActiveOrds.enqueue(Ord);
 

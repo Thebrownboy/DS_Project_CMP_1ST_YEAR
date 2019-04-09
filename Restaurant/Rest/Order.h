@@ -23,7 +23,7 @@ protected:
 
 	
 	/*Start sir_sayed modification*/
-		int Priorty;
+		double  Priorty;
 	/*End sir_sayed modification*/
 
 public:

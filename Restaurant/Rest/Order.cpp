@@ -10,9 +10,11 @@ Order::Order(int id, ORD_TYPE r_Type, REGION r_region,int distance  ,double mone
 	ID = (id>0&&id<1000)?id:0;	//1<ID<999
 	type = r_Type;
 	Region = r_region;	
+	totalMoney = money;
+	ArrTime = Arr_time;
 	if (r_Type == 2) //added by abdalla mahmoud 
 	{
-		Priorty = (int(4 * (((distance*ArrTime*money) / 3) + (((distance + Arr_time + money)*Arr_time*money*distance)) / (money + distance)))) % 100;
+		this->calcPriority();
 
 	}
 	else
@@ -69,6 +71,11 @@ void Order::setMoney(double m)
 double Order::getMoney() const
 {
 	return totalMoney;
+}
+
+void Order::calcPriority()
+{
+	Priorty = totalMoney / Distance * ArrTime;
 }
 
 bool Order::operator<(Order & ord)const 

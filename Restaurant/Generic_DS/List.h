@@ -214,7 +214,7 @@ inline bool List<Type>::Pick( Type & Data)
 	return false;
 }
 
-}
+
 
 template<class Type>
 inline LinkedNode<Type>* List<Type>::search(const Type&  Data) const 

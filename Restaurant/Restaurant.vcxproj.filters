@@ -129,8 +129,8 @@
     <ClInclude Include="Generic_DS\PriorityQueue.h">
       <Filter>Generic_DS</Filter>
     </ClInclude>
-    <ClInclude Include="Region.h">
-      <Filter>Events</Filter>
+    <ClInclude Include="Rest\Region.h">
+      <Filter>Restaurant</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -264,7 +264,7 @@
     <ClCompile Include="Events\PromotionEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
-    <ClCompile Include="Region.cpp">
+    <ClCompile Include="Rest\Region.cpp">
       <Filter>Restaurant</Filter>
     </ClCompile>
   </ItemGroup>
