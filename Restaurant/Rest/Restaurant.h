@@ -50,6 +50,7 @@ public:
 	void AddEvent(Event* pE);	//adds a new event to the queue of events
 	void ExecuteEvents(int TimeStep);	//executes all events at current timestep
 	void RunSimulation();
+	void PrintInfo(int);
 //added by (abdalla )
 	/// ==> 
 	///  DEMO-related functions. Should be removed in phases 1&2

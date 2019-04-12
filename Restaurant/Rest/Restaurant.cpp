@@ -36,6 +36,117 @@ void Restaurant::RunSimulation()
 
 }
 
+void Restaurant::PrintInfo(int cts )
+{
+	char timestep[10];
+	itoa(cts, timestep, 10);
+	string hg = "                                             Motorcycles                        Orders  ";
+	string hs = "                                             V    N    F                        V    N    F  ";
+	string st = "Time step : ";
+	st.append(timestep);
+	string sA = "Reg A                                   ";
+	string sB = "Reg B                                   ";
+	string sC = "Reg C                                   ";
+	string sD = "Reg D                                   ";
+
+	string sp1 = "    ";
+	string sp2 = "                         ";
+	char nVm[4], nNm[4], nFm[4], nNo[4], nFo[4], nVo[4];
+	for (int i = 0; i < 4; ++i) {
+		switch (i) {
+		case 0:
+			itoa(this->Get_region(i)->getNVM(), nVm, 10);
+			sA.append(nVm);
+			sA.append(sp1);
+			itoa(this->Get_region(i)->getNNM(), nNm, 10);
+			sA.append(nNm);
+			sA.append(sp1);
+			itoa(this->Get_region(i)->getNFM(), nFm, 10);
+			sA.append(nFm);
+			break;
+		case 1:
+			itoa(this->Get_region(i)->getNVM(), nVm, 10);
+			sB.append(nVm);
+			sB.append(sp1);
+			itoa(this->Get_region(i)->getNNM(), nNm, 10);
+			sB.append(nNm);
+			sB.append(sp1);
+			itoa(this->Get_region(i)->getNFM(), nFm, 10);
+			sB.append(nFm);
+			break;
+		case 2:
+			itoa(this->Get_region(i)->getNVM(), nVm, 10);
+			sC.append(nVm);
+			sC.append(sp1);
+			itoa(this->Get_region(i)->getNNM(), nNm, 10);
+			sC.append(nNm);
+			sC.append(sp1);
+			itoa(this->Get_region(i)->getNFM(), nFm, 10);
+			sC.append(nFm);
+			break;
+		default:
+			itoa(this->Get_region(i)->getNVM(), nVm, 10);
+			sD.append(nVm);
+			sD.append(sp1);
+			itoa(this->Get_region(i)->getNNM(), nNm, 10);
+			sD.append(nNm);
+			sD.append(sp1);
+			itoa(this->Get_region(i)->getNFM(), nFm, 10);
+			sD.append(nFm);
+			break;
+		}
+	}
+	sA.append(sp2);
+		sB.append(sp2);
+		sC.append(sp2);
+		sD.append(sp2);
+		for (int i = 0; i < 4; ++i) {
+			switch (i) {
+			case 0:
+				itoa(this->Get_region(i)->getNVO(), nVo, 10);
+				sA.append(nVo);
+				sA.append(sp1);
+				itoa(this->Get_region(i)->getNNO(), nNo, 10);
+				sA.append(nNo);
+				sA.append(sp1);
+				itoa(this->Get_region(i)->getNFO(), nFo, 10);
+				sA.append(nFo);
+				break;
+			case 1:
+				itoa(this->Get_region(i)->getNVO(), nVo, 10);
+				sB.append(nVo);
+				sB.append(sp1);
+				itoa(this->Get_region(i)->getNNO(), nNo, 10);
+				sB.append(nNo);
+				sB.append(sp1);
+				itoa(this->Get_region(i)->getNFO(), nFo, 10);
+				sB.append(nFo);
+				break;
+			case 2:
+				itoa(this->Get_region(i)->getNVO(), nVo, 10);
+				sC.append(nVo);
+				sC.append(sp1);
+				itoa(this->Get_region(i)->getNNO(), nNo, 10);
+				sC.append(nNo);
+				sC.append(sp1);
+				itoa(this->Get_region(i)->getNFO(), nFo, 10);
+				sC.append(nFo);
+				break;
+			default:
+				itoa(this->Get_region(i)->getNVO(), nVo, 10);
+				sD.append(nVo);
+				sD.append(sp1);
+				itoa(this->Get_region(i)->getNNO(), nNo, 10);
+				sD.append(nNo);
+				sD.append(sp1);
+				itoa(this->Get_region(i)->getNFO(), nFo, 10);
+				sD.append(nFo);
+
+		}
+	}
+	pGUI->PrintMessage(hg, hs, sA, sB, sC, sD, st);
+}
+
 
 
 
@@ -195,32 +306,32 @@ void Restaurant::Load()
 		for (int i = 0; i < REG_CNT; i++)
 		{
 			input >> NumN >> Numf >> NumVip;
-			VIP = new				 Motorcycle*[NumVip];
+			VIP = new Motorcycle*[NumVip];
 			Norm = new Motorcycle*[NumN];
 			Froz = new Motorcycle*[Numf];
 			
-			for (int j = 0; j < NumN; j++)
+			for (int j = 1; j <=NumN; j++)
 			{
-				Norm[j] = new Motorcycle;
-				Norm[j]->Set_ID(j);
-				Norm[j]->Set_Type(TYPE_NRM);
-				Norm[j]->Set_Speed(SN);
+				Norm[j-1] = new Motorcycle;
+				Norm[j-1]->Set_ID(j);
+				Norm[j-1]->Set_Type(TYPE_NRM);
+				Norm[j-1]->Set_Speed(SN);
 
 			}
-			for (int k = 0; k < Numf; k++)
+			for (int k = 1; k <= Numf; k++)
 			{
-				Froz[k] = new Motorcycle;
-				Froz[k]->Set_ID(i+ NumN);
-				Froz[k]->Set_Type(TYPE_FROZ);
-				Froz[k]->Set_Speed(SF);
+				Froz[k-1] = new Motorcycle;
+				Froz[k-1]->Set_ID(k+ NumN);
+				Froz[k-1]->Set_Type(TYPE_FROZ);
+				Froz[k-1]->Set_Speed(SF);
 
 			}
-			for (int l = 0; l < NumVip; l++)
+			for (int l = 1; l <= NumVip; l++)
 			{
-				VIP[l] = new Motorcycle;
-				VIP[l]->Set_ID(l+ NumN+ Numf);
-				VIP[l]->Set_Type(TYPE_VIP);
-				VIP[l]->Set_Speed(SV);
+				VIP[l-1] = new Motorcycle;
+				VIP[l-1]->Set_ID(l+ NumN+ Numf);
+				VIP[l-1]->Set_Type(TYPE_VIP);
+				VIP[l-1]->Set_Speed(SV);
 
 			}
 			
@@ -286,78 +397,7 @@ void Restaurant::phase_one()
 	//as long as events queue is not empty yet
 	while (!EventsQueue.isEmpty() || !this->OrdersDone() )
 	{
-		//print current timestep
-		char timestep[10];
-		itoa(CurrentTimeStep, timestep, 10);
-		string hg="                                             Motorcycles                        Orders  ";
-		string hs="                                             V    N    F                        V    N    F  ";
-		string st = "Time step : ";
-		st.append(timestep);
-		string sA = "Reg A                                   ";
-		string sB = "Reg B                                   ";
-		string sC = "Reg C                                   ";
-		string sD = "Reg D                                   ";
-		
-		string sp1 = "    ";
-		string sp2 = "                         ";
-		char nVm[4], nNm[4], nFm[4], nNo[4], nFo[4], nVo[4];
-		for (int i = 0; i < 4; ++i) {
-			
-			switch (i) {
-			case 0:
-				itoa(this->Get_region(i)->getNVM(), nVm, 10);
-				sA.append(nVm);
-				sA.append(sp1);
-				itoa(this->Get_region(i)->getNNM(), nNm, 10);
-				sA.append(nNm);
-				sA.append(sp1);
-				itoa(this->Get_region(i)->getNFM(), nFm, 10);
-				sA.append(nFm);
-				break;
-			case 1:
-				itoa(this->Get_region(i)->getNVM(), nVm, 10);
-				sB.append(nVm);
-				sB.append(sp1);
-				itoa(this->Get_region(i)->getNNM(), nNm, 10);
-				sB.append(nNm);
-				sB.append(sp1);
-				itoa(this->Get_region(i)->getNFM(), nFm, 10);
-				sB.append(nFm);
-				break;
-			case 2:
-				itoa(this->Get_region(i)->getNVM(), nVm, 10);
-				sC.append(nVm);
-				sC.append(sp1);
-				itoa(this->Get_region(i)->getNNM(), nNm, 10);
-				sC.append(nNm);
-				sC.append(sp1);
-				itoa(this->Get_region(i)->getNFM(), nFm, 10);
-				sC.append(nFm);
-				break;
-			default:
-				itoa(this->Get_region(i)->getNVM(), nVm, 10);
-				sD.append(nVm);
-				sD.append(sp1);
-				itoa(this->Get_region(i)->getNNM(), nNm, 10);
-				sD.append(nNm);
-				sD.append(sp1);
-				itoa(this->Get_region(i)->getNFM(), nFm, 10);
-				sD.append(nFm);
-				break;
-			}
-		}
-		sA.append(sp2);
-		sB.append(sp2);
-		sC.append(sp2); 
-		sD.append(sp2);
-
-
 		ExecuteEvents(CurrentTimeStep);//execute all events at current time step
-									   //adding orders to their respective queues	
-		string sAa=sA;
-		string sBb=sB;
-		string sCc=sC;
-		string sDd=sD;
 
 		
 
@@ -382,48 +422,6 @@ void Restaurant::phase_one()
 				ActiveOrds.enqueue(dum);
 				norm.Delete(dum); /// back
 			}
-			switch (i) {
-			case 0:
-				itoa(this->Get_region(i)->getNVO(), nVo, 10);
-				sA.append(nVo);
-				sA.append(sp1);
-				itoa(this->Get_region(i)->getNNO(), nNo, 10);
-				sA.append(nNo);
-				sA.append(sp1);
-				itoa(this->Get_region(i)->getNFO(), nFo, 10);
-				sA.append(nFo);
-				break;
-			case 1:
-				itoa(this->Get_region(i)->getNVO(), nVo, 10);
-				sB.append(nVo);
-				sB.append(sp1);
-				itoa(this->Get_region(i)->getNNO(), nNo, 10);
-				sB.append(nNo);
-				sB.append(sp1);
-				itoa(this->Get_region(i)->getNFO(), nFo, 10);
-				sB.append(nFo);
-				break;
-			case 2:
-				itoa(this->Get_region(i)->getNVO(), nVo, 10);
-				sC.append(nVo);
-				sC.append(sp1);
-				itoa(this->Get_region(i)->getNNO(), nNo, 10);
-				sC.append(nNo);
-				sC.append(sp1);
-				itoa(this->Get_region(i)->getNFO(), nFo, 10);
-				sC.append(nFo);
-				break;
-			default:
-				itoa(this->Get_region(i)->getNVO(), nVo, 10);
-				sD.append(nVo);
-				sD.append(sp1);
-				itoa(this->Get_region(i)->getNNO(), nNo, 10);
-				sD.append(nNo);
-				sD.append(sp1);
-				itoa(this->Get_region(i)->getNFO(), nFo, 10);
-				sD.append(nFo);
-
-			}
 		}
 		
 		while (ActiveOrds.dequeue(dum))
@@ -431,56 +429,14 @@ void Restaurant::phase_one()
 			pGUI->AddOrderForDrawing(dum);
 			pGUI->UpdateInterface();
 		}
-		pGUI->PrintMessage(hg, hs, sA, sB, sC, sD, st);
-		//Sleep(500);
+		this->PrintInfo(CurrentTimeStep);
+
 		pGUI->waitForClick();
 		pGUI->ResetDrawingList();
 		pGUI->UpdateInterface();
 		for (int i = 0; i < 4; i++) 
 		{
 			this->Get_region(i)->Delete_from_each_one();
-			switch (i) {
-			case 0:
-				itoa(this->Get_region(i)->getNVO(), nVo, 10);
-				sAa.append(nVo);
-				sAa.append(sp1);
-				itoa(this->Get_region(i)->getNNO(), nNo, 10);
-				sAa.append(nNo);
-				sAa.append(sp1);
-				itoa(this->Get_region(i)->getNFO(), nFo, 10);
-				sAa.append(nFo);
-				break;
-			case 1:
-				itoa(this->Get_region(i)->getNVO(), nVo, 10);
-				sBb.append(nVo);
-				sBb.append(sp1);
-				itoa(this->Get_region(i)->getNNO(), nNo, 10);
-				sBb.append(nNo);
-				sBb.append(sp1);
-				itoa(this->Get_region(i)->getNFO(), nFo, 10);
-				sBb.append(nFo);
-				break;
-			case 2:
-				itoa(this->Get_region(i)->getNVO(), nVo, 10);
-				sCc.append(nVo);
-				sCc.append(sp1);
-				itoa(this->Get_region(i)->getNNO(), nNo, 10);
-				sCc.append(nNo);
-				sCc.append(sp1);
-				itoa(this->Get_region(i)->getNFO(), nFo, 10);
-				sCc.append(nFo);
-				break;
-			default:
-				itoa(this->Get_region(i)->getNVO(), nVo, 10);
-				sDd.append(nVo);
-				sDd.append(sp1);
-				itoa(this->Get_region(i)->getNNO(), nNo, 10);
-				sDd.append(nNo);
-				sDd.append(sp1);
-				itoa(this->Get_region(i)->getNFO(), nFo, 10);
-				sDd.append(nFo);
-
-			}
 		}
 		for (int i = 0; i < 4; ++i) {
 			PriorityQueue < Order* > vip = this->Get_region(i)->getViPords();
@@ -499,7 +455,7 @@ void Restaurant::phase_one()
 			{
 				norm.get_first(dum);
 				ActiveOrds.enqueue(dum);
-				norm.Delete(dum); /// back
+				norm.Delete(dum); 
 			}
 
 
@@ -510,8 +466,7 @@ void Restaurant::phase_one()
 			pGUI->AddOrderForDrawing(dum);
 			pGUI->UpdateInterface();
 		}
-		pGUI->PrintMessage(hg, hs, sAa, sBb, sCc, sDd, st);
-		//Sleep(500);
+		this->PrintInfo(CurrentTimeStep);
 		pGUI->waitForClick();
 		pGUI->ResetDrawingList();
 		CurrentTimeStep++;	//advance timestep
@@ -530,4 +485,3 @@ bool Restaurant::OrdersDone()
 }
 
 
-/// ==> end of DEMO-related function

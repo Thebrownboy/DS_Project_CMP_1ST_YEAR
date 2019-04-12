@@ -54,7 +54,11 @@ bool Region::deleteoreder(int ID)
 {
 	Order *dum=new Order();
 	dum->setID(ID);
-	return NormOr.Delete(dum);
+	if (NormOr.Delete(dum)) {
+		NumNormOrd--;
+		return true;
+	}
+	return false;
 }
 
 PriorityQueue<Order*> Region::getViPords()
@@ -143,6 +147,16 @@ int Region::getNVO()
 int Region::getNFO()
 {
 	return this->NumFrozOrd;
+}
+
+void Region::incVIPords()
+{
+	this->NumVIPOrd++;
+}
+
+void Region::decNormOrds()
+{
+	this->NumNormOrd--;
 }
 
 Region::~Region()

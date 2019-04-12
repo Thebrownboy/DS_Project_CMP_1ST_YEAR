@@ -49,6 +49,8 @@ public:
 	int getNNO();
 	int getNVO();
 	int getNFO();
+	void incVIPords();
+	void decNormOrds();
 	~Region();
 };
 
