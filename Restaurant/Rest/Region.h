@@ -43,6 +43,12 @@ public:
 	bool AssignNorm();
 	bool AssignVIP();
 	bool AssignFroz();
+	int getNVM();
+	int getNFM();
+	int getNNM();
+	int getNNO();
+	int getNVO();
+	int getNFO();
 	~Region();
 };
 

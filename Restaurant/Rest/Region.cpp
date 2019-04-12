@@ -110,8 +110,39 @@ bool Region::AssignFroz()
 	Order * ord;
 	this->FrozOr.peekFront(ord);
 	FrozOr.dequeue(ord);
+	NumFrozOrd--;
 	return true;
 
+}
+
+int Region::getNVM()
+{
+	return this->NumVIPMoto;
+}
+
+int Region::getNFM()
+{
+	return this->NumFrozMoto;
+}
+
+int Region::getNNM()
+{
+	return this->NumNormMoto;
+}
+
+int Region::getNNO()
+{
+	return this->NumNormOrd;
+}
+
+int Region::getNVO()
+{
+	return this->NumVIPOrd;
+}
+
+int Region::getNFO()
+{
+	return this->NumFrozOrd;
 }
 
 Region::~Region()

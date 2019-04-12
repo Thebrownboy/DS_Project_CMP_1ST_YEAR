@@ -71,6 +71,7 @@ public:
 	Region*Get_region(int i);
 
 	void phase_one();
+	bool OrdersDone();
 
 /*   END sir_sayed modification    */
 

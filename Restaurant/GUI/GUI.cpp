@@ -58,16 +58,30 @@ string GUI::GetString() const
 // ================================== OUTPUT FUNCTIONS ===================================
 //////////////////////////////////////////////////////////////////////////////////////////
 
-void GUI::PrintMessage(string msg) const	//Prints a message on status bar
+void GUI::PrintMessage(string msg1,string msg2 , string msg3 , string msg4,string msg5,string msg6,string msg7 ) const	//Prints a message on status bar
 {
 	ClearStatusBar();	//First clear the status bar
 	
 	pWind->SetPen(DARKRED);
 	pWind->SetFont(18, BOLD , BY_NAME, "Arial");   
-	pWind->DrawString(10, WindHeight - (int) (StatusBarHeight/1.5), msg); // You may need to change these coordinates later 
-	                                                                      // to be able to write multi-line
+	pWind->DrawString(5, WindHeight - StatusBarHeight +5, msg1); // You may need to change these coordinates later 
+	pWind->DrawString(5, WindHeight - StatusBarHeight + 20, msg2);
+	pWind->DrawString(5, WindHeight - StatusBarHeight + 35, msg3);
+	pWind->DrawString(5, WindHeight - StatusBarHeight + 50, msg4);// to be able to write multi-line
+	pWind->DrawString(5, WindHeight - StatusBarHeight + 65, msg5);
+	pWind->DrawString(5, WindHeight - StatusBarHeight + 80, msg6);
+	pWind->DrawString(5, WindHeight - StatusBarHeight + 95, msg7);
 }
 //////////////////////////////////////////////////////////////////////////////////////////
+//void GUI::PrintMessage(string msg) const	//Prints a message on status bar
+//{
+//	ClearStatusBar();	//First clear the status bar
+//
+//	pWind->SetPen(DARKRED);
+//	pWind->SetFont(18, BOLD, BY_NAME, "Arial");
+//	pWind->DrawString(5, WindHeight - StatusBarHeight + 5, msg); // You may need to change these coordinates later 
+//	// to be able to write multi-line
+//}
 void GUI::DrawString(const int iX, const int iY, const string Text)
 {
 	pWind->SetPen(DARKRED);
