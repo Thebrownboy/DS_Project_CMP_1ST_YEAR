@@ -47,6 +47,10 @@ void ArrivalEvent::Execute(Restaurant* pRest)
 				pRest->Get_region(this->OrdRegion)->insert_viporder(PO);
 		
 }
+
+ArrivalEvent::~ArrivalEvent()
+{
+}
 	
 	///*if (this->OrdRegion == 0) 
 	//{

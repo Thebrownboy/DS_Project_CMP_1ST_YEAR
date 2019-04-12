@@ -22,7 +22,7 @@ public:
 	//Add more constructors if needed
 	
 	virtual void Execute(Restaurant *pRest);	//override execute function
-
+	~ArrivalEvent();
 };
 
 #endif

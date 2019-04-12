@@ -8,16 +8,17 @@ class List
 
 public:
 	List();
-	void Insert(const Type& );
-	LinkedNode<Type>* search(const  Type & )const ;
+	void Insert(const Type&);
+	LinkedNode<Type>* search(const  Type &)const;
 	bool Delete(const Type&);
 	///   bool Pick(Type &);
-	void dispaly()const ;
-	bool  get_first(Type & );
+	void dispaly()const;
+	bool  get_first(Type &);
 	bool is_empty();
 	List(const List<Type >&);
 	void operator=(const List <Type >&);
 	bool  Pick(Type &);
+	virtual ~List();
 };
 
 template<class Type>
@@ -51,7 +52,7 @@ inline bool List<Type>::Delete(const Type&  Data)
 	if (Head == NULL)
 		return false;
 
-	if (std::is_pointer<Type>::value) 
+	if (std::is_pointer<Type>::value)
 	{
 		if (*(Head->Get_data()) == *Data)
 		{
@@ -100,7 +101,7 @@ inline bool List<Type>::Delete(const Type&  Data)
 	return false;
 }
 template<class Type>
-inline void List<Type>::dispaly()const 
+inline void List<Type>::dispaly()const
 {
 	if (Head == NULL)
 		return;
@@ -115,18 +116,18 @@ inline void List<Type>::dispaly()const
 }
 
 template<class Type>
-inline bool  List<Type>::get_first( Type & Data )
+inline bool  List<Type>::get_first(Type & Data)
 {
 	if (!Head)
 		return false;
-	Data= Head->Get_data();
+	Data = Head->Get_data();
 	return true;
 }
 
 template<class Type>
 inline bool List<Type>::is_empty()
 {
-	if (Head) 
+	if (Head)
 	{
 		return false;
 	}
@@ -134,15 +135,15 @@ inline bool List<Type>::is_empty()
 }
 
 template<class Type>
-inline List<Type>::List(const List<Type>& Ptr )
+inline List<Type>::List(const List<Type>& Ptr)
 {
 	Head = NULL;
 	LinkedNode <Type > *curr = Ptr.Head;
-	while (curr != NULL) 
+	while (curr != NULL)
 	{
 		this->Insert(curr->Get_data());
 		curr = curr->Get_Next();
-	
+
 	}
 }
 
@@ -159,7 +160,7 @@ inline void List<Type>::operator=(const List<Type>&)
 }
 
 template<class Type>
-inline bool List<Type>::Pick( Type & Data)
+inline bool List<Type>::Pick(Type & Data)
 {
 	if (Head == NULL)
 		return false;
@@ -217,10 +218,24 @@ inline bool List<Type>::Pick( Type & Data)
 	return false;
 }
 
+template<class Type>
+inline List<Type>::~List()
+{
+	LinkedNode<Type >* curr = Head;
+	while (curr != NULL)
+	{
+		Head = Head->Get_Next();
+		delete curr;
+		curr = NULL;
+		curr = Head;
+
+	}
+}
+
 
 
 template<class Type>
-inline LinkedNode<Type>* List<Type>::search(const Type&  Data) const 
+inline LinkedNode<Type>* List<Type>::search(const Type&  Data) const
 {
 	if (Head == NULL)
 		return NULL;

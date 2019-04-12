@@ -14,3 +14,7 @@ void CancellationEvent::Execute(Restaurant * PRest)
 			return;
 	}
 }
+
+CancellationEvent::~CancellationEvent()
+{
+}

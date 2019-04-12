@@ -7,6 +7,7 @@ class CancellationEvent :public Event
 public :
 	CancellationEvent(int Timestep, int oID);
 	virtual void Execute(Restaurant *);
+	~CancellationEvent();
 
 
 

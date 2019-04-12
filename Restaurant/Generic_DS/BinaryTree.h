@@ -6,21 +6,23 @@ class BinaryTree
 {
 	Treenode<Type>* Root;
 	Treenode<Type>* Get_dep(Treenode<Type> *, Treenode<Type>*&);
-	void displayo(Treenode<Type>*)const ;
+	void displayo(Treenode<Type>*)const;
 	void Delete_elem(Treenode <Type >*, Treenode <Type >*);
 	void insert(Treenode<Type>*);
+	void Delete(Treenode<Type >*);
 
 
 public:
-	void Insert( const Type& Data);
+	void Insert(const Type& Data);
 	void Delete_max();
 	Type Peek()const;
-	void display()const ;
-	bool Is_empty()const ;
-	bool Delete(const Type& );
+	void display()const;
+	bool Is_empty()const;
+	bool Delete(const Type&);
 	BinaryTree();
 	BinaryTree(const BinaryTree<Type>&);
-	void operator=( const BinaryTree<Type>&);
+	void operator=(const BinaryTree<Type>&);
+	virtual ~BinaryTree();
 };
 
 template<class Type>
@@ -47,7 +49,7 @@ inline Treenode<Type>* BinaryTree<Type>::Get_dep(Treenode<Type>* curr, Treenode<
 }
 
 template<class Type>
-inline void BinaryTree<Type>::Insert( const Type& Data)
+inline void BinaryTree<Type>::Insert(const Type& Data)
 {
 	Treenode<Type>* curr = new Treenode<Type>();
 	curr->Set_data(Data);
@@ -106,12 +108,12 @@ inline void BinaryTree<Type>::Delete_max()
 }
 
 template<class Type>
-inline Type BinaryTree<Type>::Peek()const 
+inline Type BinaryTree<Type>::Peek()const
 {
 	Treenode<Type>* curr = Root;
 	if (Root == NULL)
 	{
-		abort(); 
+		abort();
 	}
 	if (Root->Get_right() == NULL)
 	{
@@ -124,13 +126,13 @@ inline Type BinaryTree<Type>::Peek()const
 }
 
 template<class Type>
-inline void BinaryTree<Type>::display()const 
+inline void BinaryTree<Type>::display()const
 {
 	displayo(Root);
 }
 
 template<class Type>
-inline bool BinaryTree<Type>::Is_empty()const 
+inline bool BinaryTree<Type>::Is_empty()const
 {
 	if (Root)
 		return false;
@@ -141,14 +143,14 @@ template<class Type>
 inline bool  BinaryTree<Type>::Delete(const Type&  Data)
 {
 	if (Root == NULL)
-		return false ;
+		return false;
 	if (Root->Get_data() == Data)
 	{
 		if (!Root->Get_left() && !Root->Get_right())
 		{
 			delete Root;
 			Root = NULL;
-			return true ;
+			return true;
 		}
 		if (Root->Get_right() == NULL)
 		{
@@ -156,7 +158,7 @@ inline bool  BinaryTree<Type>::Delete(const Type&  Data)
 			Root = Root->Get_left();
 			delete curr;
 			curr = NULL;
-			return true ;
+			return true;
 		}
 		if (Root->Get_left() == NULL)
 		{
@@ -164,7 +166,7 @@ inline bool  BinaryTree<Type>::Delete(const Type&  Data)
 			Root = Root->Get_right();
 			delete curr;
 			curr = NULL;
-			return true ;
+			return true;
 		}
 		Treenode<Type>* curr = Root, *prev = curr;
 		Delete_elem(curr, prev);// here I am sure That root has two children 
@@ -181,7 +183,7 @@ inline bool  BinaryTree<Type>::Delete(const Type&  Data)
 		{
 
 			Delete_elem(curr);
-			return true ;
+			return true;
 		}
 		if (Data > curr->Get_data())
 		{
@@ -204,7 +206,7 @@ inline BinaryTree<Type>::BinaryTree()
 }
 
 template<class Type>
-inline BinaryTree<Type>::BinaryTree( const BinaryTree<Type> & tree)
+inline BinaryTree<Type>::BinaryTree(const BinaryTree<Type> & tree)
 {
 	Root = NULL;// here if  i don't  amake it with NULL it will be undefiend bc it doesn't enter the defualt constructor 
 	this->insert(tree.Root);
@@ -217,7 +219,14 @@ inline void BinaryTree<Type>::operator=(const  BinaryTree<Type>& tree)
 }
 
 template<class Type>
-inline void BinaryTree<Type>::displayo(Treenode<Type>* curr)const 
+inline BinaryTree<Type>::~BinaryTree()
+{
+	Delete(Root);
+	Root = NULL;
+}
+
+template<class Type>
+inline void BinaryTree<Type>::displayo(Treenode<Type>* curr)const
 {
 	if (curr == NULL)
 		return;
@@ -294,13 +303,24 @@ inline void BinaryTree<Type>::Delete_elem(Treenode<Type>* curr, Treenode <Type >
 }
 
 template<class Type>
-inline void BinaryTree<Type>::insert(Treenode<Type>* node )
+inline void BinaryTree<Type>::insert(Treenode<Type>* node)
 {
-	if (node == NULL) 
+	if (node == NULL)
 	{
-		return; 
+		return;
 	}
 	Insert(node->Get_data());
 	insert(node->Get_left());
 	insert(node->Get_right());
+}
+
+template<class Type>
+inline void BinaryTree<Type>::Delete(Treenode<Type>* node)
+{
+	if (node == NULL)
+		return;
+	Delete(node->Get_right());
+	Delete(node->Get_left());
+	delete node;
+	node = NULL;
 }
