@@ -11,6 +11,7 @@ Motorcycle::Motorcycle(int ID , ORD_TYPE Type , int speed,REGION  Region)
 	this->speed = speed;
 	this->region = Region;
 	status = IDLE;
+	returnTS = 0;
 }
 
 Motorcycle::~Motorcycle()
@@ -50,6 +51,16 @@ void Motorcycle::Set_Status(STATUS status )
 void Motorcycle::Set_Speed(int speed )
 { 
 	this->speed = speed;
+}
+
+void Motorcycle::Set_ReturnTS(int r)
+{
+	this->returnTS = r;
+}
+
+int Motorcycle::Get_ReturnTS()
+{
+	return this->returnTS;
 }
 
 Motorcycle::Motorcycle()

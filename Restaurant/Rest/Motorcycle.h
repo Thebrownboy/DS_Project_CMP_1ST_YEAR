@@ -12,6 +12,7 @@ class Motorcycle
 	int speed;		//meters it can move in one clock tick (in one timestep)
 	REGION	region;	//region of the motorcycle .it will be const  forever .. will be const forever  
 	STATUS	status;	//idle or in-service
+	int returnTS;
 
 public:
 	Motorcycle(int ,ORD_TYPE,int,REGION);

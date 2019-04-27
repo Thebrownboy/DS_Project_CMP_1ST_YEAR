@@ -89,14 +89,33 @@ void Region::Delete_from_each_one()
 	AssignVIP();
 }
 
-bool Region::AssignNorm()
+bool Region::AssignNorm(int currTS)
 {
-	if (NumNormOrd == 0) return 0;
-	Order * top;
-	this->NormOr.get_first(top);
-	NumNormOrd--;
-	this->NormOr.Delete(top);
-	return true;
+	while (!NormMoto.Is_Empty() && !NormOr.is_empty() ) {
+		Order* Ord;
+		NormOr.get_first(Ord);
+		Motorcycle Moto = NormMoto.Peek();
+		int WaitTime = currTS - Ord->getArrivalTime();
+		int ServTime = Ord->GetDistance() /Moto.Get_speed();
+		int FinTime = currTS + ServTime;
+		Moto.Set_ReturnTS(FinTime + ServTime);
+		NormMoto.Dequeue();
+		UnavailableMoto.Insert(Moto);
+		//print out in output file
+	}
+	while (!VIPMoto.Is_Empty() && !NormOr.is_empty()) {
+		Order* Ord;
+		NormOr.get_first(Ord);
+		Motorcycle Moto = VIPMoto.Peek();
+		int WaitTime = currTS - Ord->getArrivalTime();
+		int ServTime = Ord->GetDistance() / Moto.Get_speed();
+		int FinTime = currTS + ServTime;
+		Moto.Set_ReturnTS(FinTime + ServTime);
+		NormMoto.Dequeue();
+		UnavailableMoto.Insert(Moto);
+		//print out in output file
+	}
+	
 }
 
 bool Region::AssignVIP()

@@ -66,9 +66,9 @@ public:
 
 
 /*   start sir_sayed modification    */
-
+	void interactive_mode();
 	void Load();
-
+	void ProcessOrders(string & a, string & b, string & c, string & d);
 	Region*Get_region(int i);
 
 	void phase_one();

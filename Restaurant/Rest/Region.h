@@ -19,7 +19,7 @@ class Region
 	PriorityQueue <Motorcycle > NormMoto;
 	int NumVIPMoto, NumFrozMoto, NumNormMoto;
 	int NumVIPOrd, NumFrozOrd, NumNormOrd;
-	
+	List <Motorcycle > UnavailableMoto;
 
 
 	/*  END sir_sayed modification    */

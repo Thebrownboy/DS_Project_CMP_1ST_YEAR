@@ -22,6 +22,7 @@ void Restaurant::RunSimulation()
 	switch (mode)	//Add a function for each mode in next phases
 	{
 	case MODE_INTR:
+		interactive_mode();
 		break;
 	case MODE_STEP:
 		
@@ -270,6 +271,7 @@ void Restaurant::Just_A_Demo()
 
 
 
+
 /*   start sir_sayed modification    */
 void Restaurant::Load()
 {
@@ -383,9 +385,62 @@ void Restaurant::Load()
 
 }
 
+void Restaurant::ProcessOrders(string & a, string & b, string & c, string & d)
+{
+
+}
+
 Region * Restaurant::Get_region(int i)
 {
 	return &Reg[i];
+}
+
+void Restaurant::interactive_mode()
+{
+	Load();
+	int CurrentTimeStep = 1;
+	while (!EventsQueue.isEmpty() || !this->OrdersDone())
+	{
+		ExecuteEvents(CurrentTimeStep);//execute all events at current time step
+		Order* dum;							//Let's draw all arrived orders by passing them to the GUI to draw
+
+		for (int i = 0; i < 4; ++i) {
+			PriorityQueue < Order* > vip = this->Get_region(i)->getViPords();
+			while (!vip.Is_Empty()) {
+				dum = vip.Peek();
+				vip.Dequeue();
+				ActiveOrds.enqueue(dum);
+			}
+			Queue<Order*> frz = this->Get_region(i)->getFrzOrds();
+			while (!frz.isEmpty()) {
+				frz.dequeue(dum);
+				ActiveOrds.enqueue(dum);
+			}
+			List <Order*> norm = this->Get_region(i)->getNormOrds();
+			while (!norm.is_empty())
+			{
+				norm.get_first(dum);
+				ActiveOrds.enqueue(dum);
+				norm.Delete(dum); /// back
+			}
+		}
+
+		while (ActiveOrds.dequeue(dum))
+		{
+			pGUI->AddOrderForDrawing(dum);
+			pGUI->UpdateInterface();
+		}
+		this->PrintInfo(CurrentTimeStep);
+
+		pGUI->waitForClick();
+		pGUI->ResetDrawingList();
+		pGUI->UpdateInterface();
+		string motoA, motoB, motoC, motoD;
+
+		ProcessOrders(motoA, motoB, motoC, motoD);
+
+	}
+
 }
 /*   END sir_sayed modification    */
 void Restaurant::phase_one()
