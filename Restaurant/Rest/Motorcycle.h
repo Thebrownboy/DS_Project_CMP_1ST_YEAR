@@ -24,7 +24,8 @@ public:
 	STATUS Get_Staus();
 	void Set_Status(STATUS);// the only data that will be changed  ;//added by (abdalla )
 	void Set_Speed(int);// for  bounus(//added by (abdalla ))
-
+	void Set_ReturnTS(int );
+	int Get_ReturnTS();
 	/*   start sir_sayed modification    */
 	Motorcycle();
 	void Set_ID(int id);
@@ -32,7 +33,7 @@ public:
 
 	bool operator >(Motorcycle &Mo)const;
 	bool operator <(Motorcycle &Mo)const ;
-	bool operator ==(Motorcycle &Mo)const ;
+	bool operator==(Motorcycle &Mo)const ;
 
 
 

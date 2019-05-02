@@ -78,6 +78,11 @@ void Order::calcPriority()
 	Priorty = totalMoney / Distance * ArrTime;
 }
 
+int Order::getArrivalTime() const
+{
+	return this->ArrTime;
+}
+
 bool Order::operator<(Order & ord)const 
 {
 	return this->Priorty<ord.Priorty;

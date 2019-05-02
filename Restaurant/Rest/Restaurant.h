@@ -51,27 +51,16 @@ public:
 	void ExecuteEvents(int TimeStep);	//executes all events at current timestep
 	void RunSimulation();
 	void PrintInfo(int);
+
 //added by (abdalla )
-	/// ==> 
-	///  DEMO-related functions. Should be removed in phases 1&2
-	void Just_A_Demo();	//just to show a demo and should be removed in phase1 1 & 2
-	void AddtoDemoQueue(Order* po);	//adds an order to the demo queue
-	//added by (abdalla )
-	/// ==> 
-
-
-	//
-	// TODO: Add More Member Functions As Needed
-	//
-
 
 /*   start sir_sayed modification    */
 	void interactive_mode();
 	void Load();
-	void ProcessOrders(string & a, string & b, string & c, string & d);
+	void UpdateMoto(int currTS);
+	void ProcessOrders(int currTS,string & a, string & b, string & c, string & d);
 	Region*Get_region(int i);
 
-	void phase_one();
 	bool OrdersDone();
 
 /*   END sir_sayed modification    */

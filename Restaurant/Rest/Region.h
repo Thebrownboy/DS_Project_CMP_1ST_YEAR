@@ -14,12 +14,12 @@ class Region
 	List<Order*> NormOr;
 	Queue<Order*> FrozOr;
 
-	PriorityQueue <Motorcycle > VIPMoto;
-	PriorityQueue <Motorcycle > FrozMoto;
-	PriorityQueue <Motorcycle > NormMoto;
+	PriorityQueue <Motorcycle* > VIPMoto;
+	PriorityQueue <Motorcycle* > FrozMoto;
+	PriorityQueue <Motorcycle* > NormMoto;
 	int NumVIPMoto, NumFrozMoto, NumNormMoto;
 	int NumVIPOrd, NumFrozOrd, NumNormOrd;
-	List <Motorcycle > UnavailableMoto;
+	List <Motorcycle* > UnavailableMoto;
 
 
 	/*  END sir_sayed modification    */
@@ -39,10 +39,10 @@ public:
 	List<Order*> getNormOrds();
 	bool PickOrd(Order* &Or);
 	/*  END sir_sayed modification    */
-	void Delete_from_each_one();// phase one 
-	bool AssignNorm();
-	bool AssignVIP();
-	bool AssignFroz();
+	void returnAvailMoto(int currTS);
+	void AssignNorm(int currTS, string & a);
+	void AssignVIP(int currTS, string & a);
+	void AssignFroz(int currTS, string & a);
 	int getNVM();
 	int getNFM();
 	int getNNM();

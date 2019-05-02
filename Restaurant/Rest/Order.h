@@ -44,6 +44,7 @@ public:
 	void setMoney(double m);
 	double  getMoney() const;
 	void calcPriority();
+	int getArrivalTime() const;
 	//
 	// TODO: Add More Member Functions As Needed
 	//
@@ -53,7 +54,9 @@ public:
 	bool operator <(Order &ord)const ;
 	bool operator >(Order &ord)const ;
 	bool operator ==(Order &ord)const ;
+
 	/*End sir_sayed modification*/
+
 };
 
 #endif

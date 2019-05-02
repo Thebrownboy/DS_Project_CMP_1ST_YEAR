@@ -8,7 +8,7 @@ PromotionEvent::PromotionEvent(int Time , int ID , int EXmoney ):Event(Time ,ID 
 
 void PromotionEvent::Execute(Restaurant *PRest)
 {
-	int reg;
+	int reg=0;
 	Order* Ord=new Order() ;
 	Ord->setID(OrderID);
 	for (int i = 0; i < 4; i++)

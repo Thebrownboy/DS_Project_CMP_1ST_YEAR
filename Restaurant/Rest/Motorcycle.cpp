@@ -97,7 +97,7 @@ bool Motorcycle::operator<(Motorcycle & Mo)const
 
 bool Motorcycle::operator==(Motorcycle & Mo)const 
 {
-	if (speed == Mo.Get_speed())
+	if (this->returnTS == Mo.Get_ReturnTS() )
 		return true;
 	else
 		return false;

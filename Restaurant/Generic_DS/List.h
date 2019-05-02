@@ -1,17 +1,18 @@
 #pragma once
 // all Ds are implemented by (abdalla mahmoud  ) 
 #include"LinkedNode.h"
+#include "../Rest/Region.h"
+#include "../Rest/Motorcycle.h"
 template<class Type>
 class List
 {
 	LinkedNode<Type >* Head;
-
+	
 public:
 	List();
 	void Insert(const Type&);
 	LinkedNode<Type>* search(const  Type &)const;
 	bool Delete(const Type&);
-	///   bool Pick(Type &);
 	void dispaly()const;
 	bool  get_first(Type &);
 	bool is_empty();
@@ -19,6 +20,7 @@ public:
 	void operator=(const List <Type >&);
 	bool  Pick(Type &);
 	virtual ~List();
+	
 };
 
 template<class Type>

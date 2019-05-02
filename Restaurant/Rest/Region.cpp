@@ -15,17 +15,17 @@ void Region::Set_motors(int NumN, int NumF, int NumVIP, Motorcycle ** Norm, Moto
 	
 	for (int  i = 0; i < NumVIP; i++)
 	{
-		VIPMoto.Enqueue(*VIP[i]);
+		VIPMoto.Enqueue(VIP[i]);
 	}
 
 	for (int i = 0; i < NumF; i++)
 	{
-		FrozMoto.Enqueue(*FROZ[i]);
+		FrozMoto.Enqueue(FROZ[i]);
 	}
 
 	for (int i = 0; i < NumN; i++)
 	{
-		NormMoto.Enqueue(*Norm[i]);
+		NormMoto.Enqueue(Norm[i]);
 	}
 
 }
@@ -82,59 +82,221 @@ bool Region::PickOrd(Order* & Or)
 }
 
 
-void Region::Delete_from_each_one()
+
+
+
+void Region::returnAvailMoto(int currTS)
 {
-	AssignFroz();
-	AssignNorm();
-	AssignVIP();
+	Motorcycle* Moto=new Motorcycle;
+	Moto->Set_ReturnTS(currTS);
+	while (UnavailableMoto.Pick( Moto)) {
+		switch (Moto->GetORD_Type()) {
+		case (0):
+			this->NormMoto.Enqueue(Moto);
+			this->NumNormMoto++;
+			break;
+		case(1):
+			this->FrozMoto.Enqueue(Moto);
+			this->NumFrozMoto++;
+			break;
+		case(2):
+			this->VIPMoto.Enqueue(Moto);
+			this->NumVIPMoto++;
+		}
+	}
+
 }
 
-bool Region::AssignNorm(int currTS)
+void Region::AssignNorm(int currTS, string & a)
 {
 	while (!NormMoto.Is_Empty() && !NormOr.is_empty() ) {
 		Order* Ord;
 		NormOr.get_first(Ord);
-		Motorcycle Moto = NormMoto.Peek();
+		Motorcycle* Moto = NormMoto.Peek();
 		int WaitTime = currTS - Ord->getArrivalTime();
-		int ServTime = Ord->GetDistance() /Moto.Get_speed();
+		int ServTime = Ord->GetDistance() /Moto->Get_speed() + 1;
 		int FinTime = currTS + ServTime;
-		Moto.Set_ReturnTS(FinTime + ServTime);
+		Moto->Set_ReturnTS(FinTime + ServTime);
 		NormMoto.Dequeue();
+		//data for printing
 		UnavailableMoto.Insert(Moto);
+		this->NormOr.Delete(Ord);
+		this->NumNormMoto--;
+		this->NumNormOrd--;
+		char MotoID[4];
+		itoa(Moto->GetID(), MotoID, 10);
+		char OrdID[4];
+		itoa(Ord->GetID(), OrdID, 10);
+		string OrdType = "N";
+		string MotoType = "N";
+		a.append(MotoType);
+		a.append(MotoID);
+		a.append("(");
+		a.append(OrdType);
+		a.append(OrdID);
+		a.append(")");
+		a.append(" ");
+		
+		
 		//print out in output file
+		
 	}
 	while (!VIPMoto.Is_Empty() && !NormOr.is_empty()) {
 		Order* Ord;
 		NormOr.get_first(Ord);
-		Motorcycle Moto = VIPMoto.Peek();
+		Motorcycle* Moto = VIPMoto.Peek();
 		int WaitTime = currTS - Ord->getArrivalTime();
-		int ServTime = Ord->GetDistance() / Moto.Get_speed();
+		int ServTime = Ord->GetDistance() / Moto->Get_speed() + 1;
 		int FinTime = currTS + ServTime;
-		Moto.Set_ReturnTS(FinTime + ServTime);
-		NormMoto.Dequeue();
+		Moto->Set_ReturnTS(FinTime + ServTime);
+		VIPMoto.Dequeue();
 		UnavailableMoto.Insert(Moto);
+		this->NumNormOrd--;
+		this->NumVIPMoto--;
+		NormOr.Delete(Ord);
+		//data for printing
+		char MotoID[4];
+		itoa(Moto->GetID(), MotoID, 10);
+		char OrdID[4];
+		itoa(Ord->GetID(), OrdID, 10);
+		string OrdType = "N";
+		string MotoType = "N";
+		a.append(MotoType);
+		a.append(MotoID);
+		a.append("(");
+		a.append(OrdType);
+		a.append(OrdID);
+		a.append(")");
+		a.append(" ");
 		//print out in output file
+		
 	}
 	
 }
 
-bool Region::AssignVIP()
+void Region::AssignVIP(int currTS, string & a)
 {
-	if (NumVIPOrd==0)
-		return false;
-	VipOr.Dequeue();
-	NumVIPOrd--;
-	return true;
+	while (!VIPMoto.Is_Empty() && !VipOr.Is_Empty()) {
+		Order* Ord;
+		Ord=VipOr.Peek();
+		Motorcycle* Moto = NormMoto.Peek();
+		int WaitTime = currTS - Ord->getArrivalTime();
+		int ServTime = Ord->GetDistance() / Moto->Get_speed() + 1;
+		int FinTime = currTS + ServTime;
+		Moto->Set_ReturnTS(FinTime + ServTime);
+		VIPMoto.Dequeue();
+		UnavailableMoto.Insert(Moto);
+		this->NumVIPOrd--;
+		this->NumVIPMoto--;
+		//data for printing
+		char MotoID[4];
+		itoa(Moto->GetID(),MotoID,10);
+		char OrdID[4];
+		itoa(Ord->GetID(), OrdID, 10);
+		string OrdType = "V";
+		string MotoType = "V";
+		a.append(MotoType);
+		a.append(MotoID);
+		a.append("(");
+		a.append(OrdType);
+		a.append(OrdID);
+		a.append(")");
+		a.append(" ");
+		VipOr.Dequeue();
+		//print out in output file
+	}
+	while (!NormMoto.Is_Empty() && !VipOr.Is_Empty()) {
+		Order* Ord;
+		Ord = VipOr.Peek();
+		Motorcycle* Moto = VIPMoto.Peek();
+		int WaitTime = currTS - Ord->getArrivalTime();
+		int ServTime = Ord->GetDistance() / Moto->Get_speed() + 1;
+		int FinTime = currTS + ServTime;
+		Moto->Set_ReturnTS(FinTime + ServTime);
+		NormMoto.Dequeue();
+		UnavailableMoto.Insert(Moto);
+		this->NumVIPOrd--;
+		this->NumNormMoto--;
+		//data for printing
+		char MotoID[4];
+		itoa(Moto->GetID(), MotoID, 10);
+		char OrdID[4];
+		itoa(Ord->GetID(), OrdID, 10);
+		string OrdType = "V";
+		string MotoType = "N";
+		a.append(MotoType);
+		a.append(MotoID);
+		a.append("(");
+		a.append(OrdType);
+		a.append(OrdID);
+		a.append(")");
+		a.append(" ");
+		VipOr.Dequeue();
+		//print out in output file
+	}
+	while (!FrozMoto.Is_Empty() && !VipOr.Is_Empty()) {
+		Order* Ord;
+		Ord = VipOr.Peek();
+		Motorcycle* Moto = FrozMoto.Peek();
+		int WaitTime = currTS - Ord->getArrivalTime();
+		int ServTime = Ord->GetDistance() / Moto->Get_speed() + 1;
+		int FinTime = currTS + ServTime;
+		Moto->Set_ReturnTS(FinTime + ServTime);
+		FrozMoto.Dequeue();
+		UnavailableMoto.Insert(Moto);
+		this->NumVIPOrd--;
+		this->NumFrozMoto--;
+		//data for printing
+		char MotoID[4];
+		itoa(Moto->GetID(), MotoID, 10);
+		char OrdID[4];
+		itoa(Ord->GetID(), OrdID, 10);
+		string OrdType = "V";
+		string MotoType = "F";
+		a.append(MotoType);
+		a.append(MotoID);
+		a.append("(");
+		a.append(OrdType);
+		a.append(OrdID);
+		a.append(")");
+		a.append(" ");
+		VipOr.Dequeue();
+		//print out in output file
+	}
+
 }
 
-bool Region::AssignFroz()
+void Region::AssignFroz(int currTS, string & a)
 {
-	if (NumFrozOrd == 0) return 0;
-	Order * ord;
-	this->FrozOr.peekFront(ord);
-	FrozOr.dequeue(ord);
-	NumFrozOrd--;
-	return true;
+	while (!FrozOr.isEmpty() && !FrozMoto.Is_Empty()) {
+		Order* Ord;
+		FrozOr.dequeue(Ord);
+		Motorcycle* Moto = FrozMoto.Peek();
+		int WaitTime = currTS - Ord->getArrivalTime();
+		int ServTime = Ord->GetDistance() / Moto->Get_speed() + 1;
+		int FinTime = currTS + ServTime;
+		Moto->Set_ReturnTS(FinTime + ServTime);
+		FrozMoto.Dequeue();
+		UnavailableMoto.Insert(Moto);
+		this->NumFrozOrd--;
+		this->NumFrozMoto--;
+		//data for printing
+		char MotoID[4];
+		itoa(Moto->GetID(), MotoID, 10);
+		char OrdID[4];
+		itoa(Ord->GetID(), OrdID, 10);
+		string OrdType = "F";
+		string MotoType = "F";
+		a.append(MotoType);
+		a.append(MotoID);
+		a.append("(");
+		a.append(OrdType);
+		a.append(OrdID);
+		a.append(")");
+		a.append(" ");
+		//print out in output file
+		
+	}
 
 }
 
@@ -170,12 +332,12 @@ int Region::getNFO()
 
 void Region::incVIPords()
 {
-	this->NumVIPOrd++;
+	NumVIPOrd++;
 }
 
 void Region::decNormOrds()
 {
-	this->NumNormOrd--;
+	NumNormOrd--;
 }
 
 Region::~Region()
