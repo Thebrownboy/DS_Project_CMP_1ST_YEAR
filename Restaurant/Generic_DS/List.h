@@ -19,6 +19,7 @@ public:
 	List(const List<Type >&);
 	void operator=(const List <Type >&);
 	bool  Pick(Type &);
+
 	virtual ~List();
 	
 };

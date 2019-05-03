@@ -13,6 +13,9 @@ void Region::Set_motors(int NumN, int NumF, int NumVIP, Motorcycle ** Norm, Moto
 	NumVIPMoto = NumVIP;
 	NumFrozMoto = NumF;
 	NumNormMoto = NumN;
+	FixNumVIPMoto = NumVIP;
+	FixNumFrozMoto = NumF;
+	FixNumNormMoto = NumN;
 	
 	for (int  i = 0; i < NumVIP; i++)
 	{
@@ -389,8 +392,8 @@ void Region::print(ofstream & output_file)
 {
 	output_file << "Orders : " << FixNumFrozOrd + FixNumNormOrd + FixNumVIPOrd << "["
 		<< "Norm:" << FixNumNormOrd << ", Froz:" << FixNumFrozOrd << ", VIP:" << FixNumVIPOrd << "]"
-		<< endl << "MotorC:" << NumFrozMoto + NumNormMoto + NumVIPMoto << "["
-		<< "Norm:" << NumNormMoto << ", Froz" << NumFrozMoto << ", VIP: " << NumVIPMoto << "]"
+		<< endl << "MotorC:" << FixNumFrozMoto + FixNumNormMoto + FixNumVIPMoto << "["
+		<< "Norm:" << FixNumNormMoto << ", Froz:" << FixNumFrozMoto << ", VIP: " << FixNumVIPMoto << "]"
 		<< endl << "Avg Wait =" << Wating_time/(this->FixNumNormOrd+this->FixNumFrozOrd+this->FixNumVIPOrd) << ", Avg Serv = " 
 		<< Service_time/(this->FixNumNormOrd + this->FixNumFrozOrd + this->FixNumVIPOrd) << endl;
 }

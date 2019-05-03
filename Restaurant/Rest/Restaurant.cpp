@@ -447,7 +447,7 @@ void Restaurant::interactive_mode()
 	{
 		ExecuteEvents(CurrentTimeStep);//execute all events at current time step
 		Order* dum;							//Let's draw all arrived orders by passing them to the GUI to draw
-
+		Auto_Promotion(CurrentTimeStep); 
  		for (int i = 0; i < 4; ++i) {
 			PriorityQueue < Order* > vip = this->Get_region(i)->getViPords();
 			while (!vip.Is_Empty()) {
@@ -718,6 +718,34 @@ void Restaurant::output()
 void Restaurant::Add_Delivered_Order(Order * ord)
 {
 	DeliveredOrders[Num_of_Deliverd_Orders++] = ord;
+}
+
+void Restaurant::Auto_Promotion(int current_time)
+{
+	for (short int i = 0; i < 4; i++)
+	{
+		List <Order*> copy = this->Get_region(i)->getNormOrds();
+		if(copy.is_empty())
+		{
+			continue; 
+		}
+		Order*picked;
+		while (!copy.is_empty()) 
+		{
+			copy.get_first(picked); 
+			if (current_time - picked->getArrivalTime() >= AutoPromotionlimit)
+			{
+				Event * promote = new PromotionEvent(current_time, picked->GetID(), 0);
+				promote->Execute(this);
+			}
+			else
+				break; // because it is supposed that the arrival time of the rest orders while be greater ; 
+			copy.Delete(picked);
+		}
+		
+		
+
+	}
 }
 
 

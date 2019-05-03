@@ -19,6 +19,7 @@ class Region
 	PriorityQueue <Motorcycle* > FrozMoto;
 	PriorityQueue <Motorcycle* > NormMoto;
 	int NumVIPMoto, NumFrozMoto, NumNormMoto;
+	int FixNumVIPMoto, FixNumFrozMoto, FixNumNormMoto;
 	int NumVIPOrd, NumFrozOrd, NumNormOrd;
 	int FixNumVIPOrd, FixNumFrozOrd, FixNumNormOrd;
 	List <Motorcycle* > UnavailableMoto;

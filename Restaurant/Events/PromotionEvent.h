@@ -8,8 +8,4 @@ public  :
 	PromotionEvent(int, int, int);
 	void virtual Execute(Restaurant *);
 	double GetEXmoney();
-
-
-
-
 };

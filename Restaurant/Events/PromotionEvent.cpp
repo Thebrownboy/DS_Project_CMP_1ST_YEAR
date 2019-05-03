@@ -21,7 +21,6 @@ void PromotionEvent::Execute(Restaurant *PRest)
 	Ord->setMoney(Ord->getMoney() + Exmoney);
 	Ord->Set_Type(TYPE_VIP);
 	Ord->calcPriority();
-	PRest->Get_region(reg)->incVIPords();
 	PRest->Get_region(reg)->decNormOrds();
 	PRest->Get_region(reg)->insert_viporder(Ord);
 
