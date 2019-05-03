@@ -55,6 +55,9 @@ public:
 	void incVIPords();
 	void decNormOrds();
 	void print(ofstream&);
+	int Get_fixed_Norm();
+	int Get_fixed_VIP();
+	int Get_fixed_Froz();
 	~Region();
 };
 

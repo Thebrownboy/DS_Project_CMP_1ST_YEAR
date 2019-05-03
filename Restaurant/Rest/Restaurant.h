@@ -58,7 +58,7 @@ public:
 	void output();
 	void Add_Delivered_Order(Order*);
 	void Auto_Promotion(int); 
-
+	bool Returned_Done(); 
 	/*   END sir_sayed modification    */
 
 };

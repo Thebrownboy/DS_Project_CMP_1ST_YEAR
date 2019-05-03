@@ -443,7 +443,7 @@ void Restaurant::interactive_mode()
 {
 	Load();
 	int CurrentTimeStep = 1;
-	while (!EventsQueue.isEmpty() || !this->OrdersDone())
+	while (!EventsQueue.isEmpty() || !this->OrdersDone()||!Returned_Done())
 	{
 		ExecuteEvents(CurrentTimeStep);//execute all events at current time step
 		Order* dum;							//Let's draw all arrived orders by passing them to the GUI to draw
@@ -474,13 +474,13 @@ void Restaurant::interactive_mode()
 			pGUI->AddOrderForDrawing(dum);
 			pGUI->UpdateInterface();
 		}
+		UpdateMoto(CurrentTimeStep);
 		this->PrintInfo(CurrentTimeStep);
 
 		pGUI->waitForClick();
 		pGUI->ResetDrawingList();
 		pGUI->UpdateInterface();
 		string motoA, motoB, motoC, motoD;
-		UpdateMoto(CurrentTimeStep);
 		ProcessOrders(CurrentTimeStep,motoA, motoB, motoC, motoD);
 		for (int i = 0; i < 4; ++i) {
 			PriorityQueue < Order* > vip = this->Get_region(i)->getViPords();
@@ -746,6 +746,20 @@ void Restaurant::Auto_Promotion(int current_time)
 		
 
 	}
+}
+
+bool Restaurant::Returned_Done()
+{
+	for(short i =0 ; i< 4 ; i++)
+	{
+		if (this->Get_region(i)->getNFM() != this->Get_region(i)->Get_fixed_Froz()) 
+			return false; 
+		if (this->Get_region(i)->getNNM() != this->Get_region(i)->Get_fixed_Norm())
+			return false;
+		if (this->Get_region(i)->getNVM() != this->Get_region(i)->Get_fixed_VIP())
+			return false; 
+	}
+	return true; 
 }
 
 

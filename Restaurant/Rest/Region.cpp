@@ -397,6 +397,18 @@ void Region::print(ofstream & output_file)
 		<< endl << "Avg Wait =" << Wating_time/(this->FixNumNormOrd+this->FixNumFrozOrd+this->FixNumVIPOrd) << ", Avg Serv = " 
 		<< Service_time/(this->FixNumNormOrd + this->FixNumFrozOrd + this->FixNumVIPOrd) << endl;
 }
+int Region::Get_fixed_Norm()
+{
+	return FixNumNormMoto;
+}
+int Region::Get_fixed_VIP()
+{
+	return FixNumVIPMoto;
+}
+int Region::Get_fixed_Froz()
+{
+	return FixNumFrozMoto;
+}
 Region::~Region()
 {
 }
