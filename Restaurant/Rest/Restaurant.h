@@ -44,6 +44,8 @@ public:
 	void ExecuteEvents(int TimeStep);	//executes all events at current timestep
 	void RunSimulation();
 	void PrintInfo(int);
+	void Silent_Mode(); 
+	void StepByStep_Mode(); 
 
 	//added by (abdalla )
 

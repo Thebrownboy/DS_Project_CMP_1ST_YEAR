@@ -39,10 +39,10 @@ void Restaurant::RunSimulation()
 		interactive_mode();
 		break;
 	case MODE_STEP:
-		
+		StepByStep_Mode(); 
 		break;
 	case MODE_SLNT:
-		
+		Silent_Mode(); 
 		break;
 		
 
@@ -159,6 +159,120 @@ void Restaurant::PrintInfo(int cts )
 		}
 	}
 	pGUI->PrintMessage(hg, hs, sA, sB, sC, sD, st);
+}
+
+void Restaurant::Silent_Mode()
+{
+	Load();
+	int CurrentTimeStep = 1;
+	while (!EventsQueue.isEmpty() || !this->OrdersDone())
+	{
+		ExecuteEvents(CurrentTimeStep);//execute all events at current time step
+		Order* dum;							//Let's draw all arrived orders by passing them to the GUI to draw
+		Auto_Promotion(CurrentTimeStep);
+		for (int i = 0; i < 4; ++i) {
+			PriorityQueue < Order* > vip = this->Get_region(i)->getViPords();
+			while (!vip.Is_Empty()) {
+				dum = vip.Peek();
+				vip.Dequeue();
+				ActiveOrds.enqueue(dum);
+			}
+			Queue<Order*> frz = this->Get_region(i)->getFrzOrds();
+			while (!frz.isEmpty()) {
+				frz.dequeue(dum);
+				ActiveOrds.enqueue(dum);
+			}
+			List <Order*> norm = this->Get_region(i)->getNormOrds();
+			while (!norm.is_empty())
+			{
+				norm.get_first(dum);
+				ActiveOrds.enqueue(dum);
+				norm.Delete(dum); /// back
+			}
+		}
+		UpdateMoto(CurrentTimeStep);
+		string motoA, motoB, motoC, motoD;
+		ProcessOrders(CurrentTimeStep, motoA, motoB, motoC, motoD);
+		CurrentTimeStep++;
+
+	}
+	output();
+
+}
+
+void Restaurant::StepByStep_Mode()
+{
+	Load();
+	int CurrentTimeStep = 1;
+	while (!EventsQueue.isEmpty() || !this->OrdersDone() || !Returned_Done())
+	{
+		ExecuteEvents(CurrentTimeStep);//execute all events at current time step
+		Order* dum;							//Let's draw all arrived orders by passing them to the GUI to draw
+		Auto_Promotion(CurrentTimeStep);
+		for (int i = 0; i < 4; ++i) {
+			PriorityQueue < Order* > vip = this->Get_region(i)->getViPords();
+			while (!vip.Is_Empty()) {
+				dum = vip.Peek();
+				vip.Dequeue();
+				ActiveOrds.enqueue(dum);
+			}
+			Queue<Order*> frz = this->Get_region(i)->getFrzOrds();
+			while (!frz.isEmpty()) {
+				frz.dequeue(dum);
+				ActiveOrds.enqueue(dum);
+			}
+			List <Order*> norm = this->Get_region(i)->getNormOrds();
+			while (!norm.is_empty())
+			{
+				norm.get_first(dum);
+				ActiveOrds.enqueue(dum);
+				norm.Delete(dum); /// back
+			}
+		}
+		while (ActiveOrds.dequeue(dum))
+		{
+			pGUI->AddOrderForDrawing(dum);
+			pGUI->UpdateInterface();
+		}
+		UpdateMoto(CurrentTimeStep);
+		this->PrintInfo(CurrentTimeStep);
+		Sleep(1000); 
+		pGUI->ResetDrawingList();
+		pGUI->UpdateInterface();
+		string motoA, motoB, motoC, motoD;
+		ProcessOrders(CurrentTimeStep, motoA, motoB, motoC, motoD);
+		for (int i = 0; i < 4; ++i) {
+			PriorityQueue < Order* > vip = this->Get_region(i)->getViPords();
+			while (!vip.Is_Empty()) {
+				dum = vip.Peek();
+				vip.Dequeue();
+				ActiveOrds.enqueue(dum);
+			}
+			Queue<Order*> frz = this->Get_region(i)->getFrzOrds();
+			while (!frz.isEmpty()) {
+				frz.dequeue(dum);
+				ActiveOrds.enqueue(dum);
+			}
+			List <Order*> norm = this->Get_region(i)->getNormOrds();
+			while (!norm.is_empty())
+			{
+				norm.get_first(dum);
+				ActiveOrds.enqueue(dum);
+				norm.Delete(dum); /// back
+			}
+		}
+		while (ActiveOrds.dequeue(dum))
+		{
+			pGUI->AddOrderForDrawing(dum);
+			pGUI->UpdateInterface();
+		}
+		this->PrintInfo(CurrentTimeStep);
+		Sleep(1000); 
+		pGUI->ResetDrawingList();
+		CurrentTimeStep++;
+
+	}
+	output();
 }
 
 
@@ -468,7 +582,6 @@ void Restaurant::interactive_mode()
 				norm.Delete(dum); /// back
 			}
 		}
-
 		while (ActiveOrds.dequeue(dum))
 		{
 			pGUI->AddOrderForDrawing(dum);
@@ -476,7 +589,6 @@ void Restaurant::interactive_mode()
 		}
 		UpdateMoto(CurrentTimeStep);
 		this->PrintInfo(CurrentTimeStep);
-
 		pGUI->waitForClick();
 		pGUI->ResetDrawingList();
 		pGUI->UpdateInterface();
