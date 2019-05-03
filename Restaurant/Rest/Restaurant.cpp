@@ -9,6 +9,20 @@ using namespace std;
 #include "..\Events\CancellationEvent.h"
 #include "..\Events\PromotionEvent.h"
 
+
+int num_of_digits(int x) 
+{
+	if (x == 0)
+		return 1;
+	int num = 0;
+	while (x != 0) 
+	{
+		x /= 10;
+		num++; 
+	}
+	return num; 
+
+}
 Restaurant::Restaurant() 
 {
 	pGUI = NULL;
@@ -396,24 +410,24 @@ void Restaurant::ProcessOrders(int currTS, string & a, string & b, string & c, s
 	for (int i = 0; i < 4; ++i) {
 		switch (i) {
 		case(0):
-			this->Get_region(i)->AssignVIP(currTS,a);
-			this->Get_region(i)->AssignFroz(currTS,a);
-			this->Get_region(i)->AssignNorm(currTS,a);
+			this->Get_region(i)->AssignVIP(currTS,a,this);
+			this->Get_region(i)->AssignFroz(currTS,a, this);
+			this->Get_region(i)->AssignNorm(currTS,a, this);
 			break;
 		case(1):
-			this->Get_region(i)->AssignVIP(currTS,b);
-			this->Get_region(i)->AssignFroz(currTS,b);
-			this->Get_region(i)->AssignNorm(currTS,b);
+			this->Get_region(i)->AssignVIP(currTS,b, this);
+			this->Get_region(i)->AssignFroz(currTS,b, this);
+			this->Get_region(i)->AssignNorm(currTS,b, this);
 			break;
 		case(2):
-			this->Get_region(i)->AssignVIP(currTS,c);
-			this->Get_region(i)->AssignFroz(currTS,c);
-			this->Get_region(i)->AssignNorm(currTS,c);
+			this->Get_region(i)->AssignVIP(currTS,c, this);
+			this->Get_region(i)->AssignFroz(currTS,c, this);
+			this->Get_region(i)->AssignNorm(currTS,c, this);
 			break;
 		case(3):
-			this->Get_region(i)->AssignVIP(currTS,d);
-			this->Get_region(i)->AssignFroz(currTS,d);
-			this->Get_region(i)->AssignNorm(currTS,d);
+			this->Get_region(i)->AssignVIP(currTS,d, this);
+			this->Get_region(i)->AssignFroz(currTS,d, this);
+			this->Get_region(i)->AssignNorm(currTS,d, this);
 		}
 
 		
@@ -434,7 +448,7 @@ void Restaurant::interactive_mode()
 		ExecuteEvents(CurrentTimeStep);//execute all events at current time step
 		Order* dum;							//Let's draw all arrived orders by passing them to the GUI to draw
 
-		for (int i = 0; i < 4; ++i) {
+ 		for (int i = 0; i < 4; ++i) {
 			PriorityQueue < Order* > vip = this->Get_region(i)->getViPords();
 			while (!vip.Is_Empty()) {
 				dum = vip.Peek();
@@ -500,7 +514,7 @@ void Restaurant::interactive_mode()
 		CurrentTimeStep++;
 
 	}
-
+	output(); 
 }
 /*   END sir_sayed modification    */
 //void Restaurant::phase_one()
@@ -598,5 +612,113 @@ bool Restaurant::OrdersDone()
 	}
 	return true;
 }
+void Restaurant::output()
+{
+	ofstream output_file;
+	output_file.open("output_file.txt");
+	output_file << "ID     FT     AT     WT     ST     Type" << endl;
+	short int index;
+	short int i = 0;
+	 while( i < Num_of_Deliverd_Orders)
+	 {
+		 i = 0;
+		while (i < Num_of_Deliverd_Orders&&DeliveredOrders[i] == NULL) 
+		{
+			i++;
+		}
+		index = i;
+		for (short int j = i + 1;j < Num_of_Deliverd_Orders - 1; j++)
+		{
+			if (DeliveredOrders[j] != NULL && DeliveredOrders[j]->Get_finish_time() < DeliveredOrders[index]->Get_finish_time())
+				index = j;
+		}
+		// here I won't swap any thing I will print the order's data then I will delete it 
+		if (DeliveredOrders[index] != NULL&& i < Num_of_Deliverd_Orders)
+		{
+			output_file << DeliveredOrders[index]->GetID();
+			int num = num_of_digits(DeliveredOrders[index]->GetID());
+			if (num == 1)
+				output_file << "      ";
+			else if (num == 2)
+				output_file << "     ";
+			else if (num == 3)
+				output_file << "    ";
+			else if (num == 4)
+				output_file << "    ";
+			output_file << DeliveredOrders[index]->Get_finish_time();
+			num = num_of_digits(DeliveredOrders[index]->Get_finish_time());
+			if (num == 1)
+				output_file << "      ";
+			else if (num == 2)
+				output_file << "     ";
+			else if (num == 3)
+				output_file << "    ";
+			else if (num == 4)
+				output_file << "    ";
+			output_file << DeliveredOrders[index]->Get_Arrival_time();
+			num = num_of_digits(DeliveredOrders[index]->Get_Arrival_time());
+			if (num == 1)
+				output_file << "      ";
+			else if (num == 2)
+				output_file << "     ";
+			else if (num == 3)
+				output_file << "    ";
+			else if (num == 4)
+				output_file << "    ";
+			output_file << DeliveredOrders[index]->Get_Wating_time();
+			num = num_of_digits(DeliveredOrders[index]->Get_Wating_time());
+			if (num == 1)
+				output_file << "      ";
+			else if (num == 2)
+				output_file << "     ";
+			else if (num == 3)
+				output_file << "    ";
+			else if (num == 4)
+				output_file << "    ";
+			output_file << DeliveredOrders[index]->Get_servicing_time();
+			num = num_of_digits(DeliveredOrders[index]->Get_servicing_time());
+			if (num == 1)
+				output_file << "      ";
+			else if (num == 2)
+				output_file << "     ";
+			else if (num == 3)
+				output_file << "    ";
+			else if (num == 4)
+				output_file << "    ";
+			switch (DeliveredOrders[index]->GetType()) 
+			{
+			case 0:
+				output_file << "N" << endl; 
+				break;
+			case 1:
+				output_file << "F" << endl; 
+				break; 
+			default:
+				output_file << "V" << endl;
+				break; 
+			}
+			//delete DeliveredOrders[index];
+			// here I won't delete it because I won't create a new one in the "asssing functions "so it will be deleted when the destructor of the list is called
+			DeliveredOrders[index] = NULL;
+		}
+		i++;
+	}
+	char Region_type = 'A';
+	for (short int i = 0; i < 4; i++)
+	{
+		Region_type += i;
+		output_file << "Region " << Region_type << endl;
+		Reg[i].print(output_file);
+		Region_type = 'A';
+	}// ofstream file cannot be passed by value it is passed only by referene
+	 // or I can use something like that print (output_file("output_file.txt")); 
+	 /// or using (std:: move(output_file))
+}
+
+void Restaurant::Add_Delivered_Order(Order * ord)
+{
+	DeliveredOrders[Num_of_Deliverd_Orders++] = ord;
+}
+
 
 

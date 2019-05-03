@@ -14,7 +14,7 @@ protected:
 	                
 	double totalMoney;	//Total order money
 
-	int ArrTime, ServTime, FinishTime;	//arrival, service start, and finish times
+	int ArrTime, ServTime, FinishTime, WaitingTime;	//arrival, service start, and finish times
 
 
 	//
@@ -54,8 +54,14 @@ public:
 	bool operator <(Order &ord)const ;
 	bool operator >(Order &ord)const ;
 	bool operator ==(Order &ord)const ;
-
+	int Get_finish_time();
+	int Get_Arrival_time()const;
+	int Get_Wating_time()const;
+	int Get_servicing_time()const;
 	/*End sir_sayed modification*/
+	void set_finish_time(int); 
+	void set_Waiting_time(int); 
+	void set_sercive_time(int); 
 
 };
 

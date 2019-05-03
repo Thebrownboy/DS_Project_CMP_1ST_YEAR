@@ -12,6 +12,7 @@ Order::Order(int id, ORD_TYPE r_Type, REGION r_region,int distance  ,double mone
 	Region = r_region;	
 	totalMoney = money;
 	ArrTime = Arr_time;
+	Distance = distance; // added by abdalla mahmoud very important 
 	if (r_Type == 2) //added by abdalla mahmoud 
 	{
 		this->calcPriority();
@@ -56,6 +57,7 @@ void Order::SetDistance(int d)
 int Order::GetDistance() const
 {
 	return Distance;
+	// Distance not have a vlaue 
 }
 
 void Order::Set_Type(ORD_TYPE Type )
@@ -96,4 +98,39 @@ bool Order::operator>(Order & ord)const
 bool Order::operator==(Order & ord)const 
 {
 	return (this->ID == ord.ID);
+}
+int Order::Get_finish_time()
+{
+	return FinishTime;
+}
+
+int Order::Get_Arrival_time() const
+{
+	return ArrTime;
+}
+
+int Order::Get_Wating_time() const
+{
+	return  WaitingTime;
+}
+
+int Order::Get_servicing_time() const
+{
+	return ServTime;
+}
+
+void Order::set_finish_time(int FT )
+{
+	FinishTime = FT;
+}
+
+void Order::set_Waiting_time(int WT)
+{
+	WaitingTime = WT;
+}
+
+
+void Order::set_sercive_time(int ST)
+{
+	ServTime = ST; 
 }

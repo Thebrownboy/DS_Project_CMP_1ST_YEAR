@@ -6,6 +6,7 @@
 #include"..\Generic_DS/List.h"
 #include"..\Generic_DS/Queue.h"
 
+class  Restaurant; 
 class Region
 { 
 	/*   start sir_sayed modification    */
@@ -19,8 +20,9 @@ class Region
 	PriorityQueue <Motorcycle* > NormMoto;
 	int NumVIPMoto, NumFrozMoto, NumNormMoto;
 	int NumVIPOrd, NumFrozOrd, NumNormOrd;
+	int FixNumVIPOrd, FixNumFrozOrd, FixNumNormOrd;
 	List <Motorcycle* > UnavailableMoto;
-
+	double Wating_time=0, Service_time=0;
 
 	/*  END sir_sayed modification    */
 
@@ -40,9 +42,9 @@ public:
 	bool PickOrd(Order* &Or);
 	/*  END sir_sayed modification    */
 	void returnAvailMoto(int currTS);
-	void AssignNorm(int currTS, string & a);
-	void AssignVIP(int currTS, string & a);
-	void AssignFroz(int currTS, string & a);
+	void AssignNorm(int currTS, string & a, Restaurant *);
+	void AssignVIP(int currTS, string & a,Restaurant *);
+	void AssignFroz(int currTS, string & a,Restaurant *);
 	int getNVM();
 	int getNFM();
 	int getNNM();
@@ -51,6 +53,7 @@ public:
 	int getNFO();
 	void incVIPords();
 	void decNormOrds();
+	void print(ofstream&);
 	~Region();
 };
 

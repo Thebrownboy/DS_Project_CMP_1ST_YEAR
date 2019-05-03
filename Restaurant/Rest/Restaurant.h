@@ -13,38 +13,31 @@
 #include "Motorcycle.h"
 #include "Region.h"
 // it is the maestro of the project
-class Restaurant  
-{	
+class Restaurant
+{
 private:
-	GUI *pGUI;
+	GUI * pGUI;
+
 	Queue<Event*> EventsQueue;	//Queue of all events that will be loaded from file
-	
-	
-	/* it will be queue bc there is no way to treat with any element except the first one but in the normal orders 
-		I will make it a list(OR binary search tree ) bc  the program can search for an order to promote it to VIP  
-		and in VIP orders I will make it by(priority queue using (heap OR Binary search tree  )) 
-	*/ 
-	
+	Queue<Order*> ActiveOrds;
+	int AutoPromotionlimit;
+	Order * DeliveredOrders[200];
+	int Num_of_Deliverd_Orders = 0;
+
+	/* it will be queue bc there is no way to treat with any element except the first one but in the normal orders
+	I will make it a list(OR binary search tree ) bc  the program can search for an order to promote it to VIP
+	and in VIP orders I will make it by(priority queue using (heap OR Binary search tree  ))
+	*/
+
 	// I should add motorcycle lists forzen , VIP  and normal
 	// I should add list of ordes forzen ,VIP and normal 
 
 	/// ==> 
 	//	DEMO-related members. Should be removed in phases 1&2
-	Queue<Order*> DEMO_Queue;
 	//Important: This is just for demo
-	Queue<Order*> ActiveOrds;
-	/// ==>
-	//added by (abdalla )
-	//
-	// TODO: Add More Data Members As Needed
-	//
-	/*   start sir_sayed modification    */
-	Region Reg[REG_CNT];
-	int AutoPromotionlimit;
-
 
 public:
-	
+	Region Reg[REG_CNT];
 	Restaurant();
 	~Restaurant();
 	void AddEvent(Event* pE);	//adds a new event to the queue of events
@@ -52,18 +45,20 @@ public:
 	void RunSimulation();
 	void PrintInfo(int);
 
-//added by (abdalla )
+	//added by (abdalla )
 
-/*   start sir_sayed modification    */
+	/*   start sir_sayed modification    */
 	void interactive_mode();
 	void Load();
 	void UpdateMoto(int currTS);
-	void ProcessOrders(int currTS,string & a, string & b, string & c, string & d);
-	Region*Get_region(int i);
+	void ProcessOrders(int currTS, string & a, string & b, string & c, string & d);
+	Region *Get_region(int i);
 
 	bool OrdersDone();
+	void output();
+	void Add_Delivered_Order(Order*);
 
-/*   END sir_sayed modification    */
+	/*   END sir_sayed modification    */
 
 };
 
