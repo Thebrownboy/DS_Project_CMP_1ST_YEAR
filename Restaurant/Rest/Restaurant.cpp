@@ -238,6 +238,7 @@ void Restaurant::Silent_Mode()
 			}
 		}
 		UpdateMoto(CurrentTimeStep);
+		Update_tables(CurrentTimeStep);
 		string motoA, motoB, motoC, motoD;
 		ProcessOrders(CurrentTimeStep, motoA, motoB, motoC, motoD);
 		CurrentTimeStep++;
@@ -282,6 +283,7 @@ void Restaurant::StepByStep_Mode()
 			pGUI->UpdateInterface();
 		}
 		UpdateMoto(CurrentTimeStep);
+		Update_tables(CurrentTimeStep);
 		this->PrintInfo(CurrentTimeStep);
 		Sleep(1000); 
 		pGUI->ResetDrawingList();
