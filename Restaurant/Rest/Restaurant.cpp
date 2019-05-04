@@ -212,37 +212,16 @@ void Restaurant::Silent_Mode()
 {
 	Load();
 	int CurrentTimeStep = 1;
-	while (!EventsQueue.isEmpty() || !this->OrdersDone())
+	while (!EventsQueue.isEmpty() || !this->OrdersDone() || !Returned_Done())
 	{
 		ExecuteEvents(CurrentTimeStep);//execute all events at current time step
 		Order* dum;							//Let's draw all arrived orders by passing them to the GUI to draw
 		Auto_Promotion(CurrentTimeStep);
-		for (int i = 0; i < 4; ++i) {
-			PriorityQueue < Order* > vip = this->Get_region(i)->getViPords();
-			while (!vip.Is_Empty()) {
-				dum = vip.Peek();
-				vip.Dequeue();
-				ActiveOrds.enqueue(dum);
-			}
-			Queue<Order*> frz = this->Get_region(i)->getFrzOrds();
-			while (!frz.isEmpty()) {
-				frz.dequeue(dum);
-				ActiveOrds.enqueue(dum);
-			}
-			List <Order*> norm = this->Get_region(i)->getNormOrds();
-			while (!norm.is_empty())
-			{
-				norm.get_first(dum);
-				ActiveOrds.enqueue(dum);
-				norm.Delete(dum); /// back
-			}
-		}
 		UpdateMoto(CurrentTimeStep);
 		Update_tables(CurrentTimeStep);
 		string motoA, motoB, motoC, motoD;
 		ProcessOrders(CurrentTimeStep, motoA, motoB, motoC, motoD);
 		CurrentTimeStep++;
-
 	}
 	output();
 
@@ -276,6 +255,16 @@ void Restaurant::StepByStep_Mode()
 				ActiveOrds.enqueue(dum);
 				norm.Delete(dum); /// back
 			}
+			Queue<Order*> par = this->Get_region(i)->getpartyOrds();
+			while (!par.isEmpty()) {
+				par.dequeue(dum);
+				ActiveOrds.enqueue(dum);
+			}
+			Queue<Order*> In = this->Get_region(i)->getINOrds();
+			while (!In.isEmpty()) {
+				In.dequeue(dum);
+				ActiveOrds.enqueue(dum);
+			}
 		}
 		while (ActiveOrds.dequeue(dum))
 		{
@@ -285,7 +274,7 @@ void Restaurant::StepByStep_Mode()
 		UpdateMoto(CurrentTimeStep);
 		Update_tables(CurrentTimeStep);
 		this->PrintInfo(CurrentTimeStep);
-		Sleep(1000); 
+		Sleep(1000);
 		pGUI->ResetDrawingList();
 		pGUI->UpdateInterface();
 		string motoA, motoB, motoC, motoD;
@@ -309,17 +298,27 @@ void Restaurant::StepByStep_Mode()
 				ActiveOrds.enqueue(dum);
 				norm.Delete(dum); /// back
 			}
+			Queue<Order*> par = this->Get_region(i)->getpartyOrds();
+			while (!par.isEmpty()) {
+				par.dequeue(dum);
+				ActiveOrds.enqueue(dum);
+			}
+			Queue<Order*> In = this->Get_region(i)->getINOrds();
+			while (!In.isEmpty()) {
+				In.dequeue(dum);
+				ActiveOrds.enqueue(dum);
+			}
 		}
+
 		while (ActiveOrds.dequeue(dum))
 		{
 			pGUI->AddOrderForDrawing(dum);
 			pGUI->UpdateInterface();
 		}
 		this->PrintInfo(CurrentTimeStep);
-		Sleep(1000); 
+		Sleep(1000);
 		pGUI->ResetDrawingList();
 		CurrentTimeStep++;
-
 	}
 	output();
 }
