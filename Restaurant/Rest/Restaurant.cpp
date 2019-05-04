@@ -54,8 +54,8 @@ void Restaurant::PrintInfo(int cts )
 {
 	char timestep[10];
 	itoa(cts, timestep, 10);
-	string hg = "                                             Motorcycles                        Orders  ";
-	string hs = "                                             V    N    F                        V    N    F  ";
+	string hg = "                                             Motorcycles                    Tables                            Orders  ";
+	string hs = "                                             V    N    F                                                                 V    N    F    P    I  ";
 	string st = "Time step : ";
 	st.append(timestep);
 	string sA = "Reg A                                   ";
@@ -64,8 +64,8 @@ void Restaurant::PrintInfo(int cts )
 	string sD = "Reg D                                   ";
 
 	string sp1 = "    ";
-	string sp2 = "                         ";
-	char nVm[4], nNm[4], nFm[4], nNo[4], nFo[4], nVo[4];
+	string sp2 = "                                ";
+	char nVm[4], nNm[4], nFm[4], nNo[4], nFo[4], nVo[4],nT[4],nP[4],nI[4];
 	for (int i = 0; i < 4; ++i) {
 		switch (i) {
 		case 0:
@@ -117,6 +117,30 @@ void Restaurant::PrintInfo(int cts )
 		for (int i = 0; i < 4; ++i) {
 			switch (i) {
 			case 0:
+				itoa(this->Get_region(i)->getNT(), nT, 10);
+				sA.append(nT);
+				break;
+			case 1:
+				itoa(this->Get_region(i)->getNT(), nT, 10);
+				sB.append(nT);
+				break;
+			case 2:
+				itoa(this->Get_region(i)->getNT(), nT, 10);
+				sC.append(nT);
+				break;
+			default:
+				itoa(this->Get_region(i)->getNT(), nT, 10);
+				sD.append(nT);
+				break;
+			}
+		}
+		sA.append(sp2);
+		sB.append(sp2);
+		sC.append(sp2);
+		sD.append(sp2);
+		for (int i = 0; i < 4; ++i) {
+			switch (i) {
+			case 0:
 				itoa(this->Get_region(i)->getNVO(), nVo, 10);
 				sA.append(nVo);
 				sA.append(sp1);
@@ -125,6 +149,12 @@ void Restaurant::PrintInfo(int cts )
 				sA.append(sp1);
 				itoa(this->Get_region(i)->getNFO(), nFo, 10);
 				sA.append(nFo);
+				sA.append(sp1);
+				itoa(this->Get_region(i)->getNPO(), nP, 10);
+				sA.append(nP);
+				sA.append(sp1);
+				itoa(this->Get_region(i)->getNIO(), nI, 10);
+				sA.append(nI);
 				break;
 			case 1:
 				itoa(this->Get_region(i)->getNVO(), nVo, 10);
@@ -135,6 +165,12 @@ void Restaurant::PrintInfo(int cts )
 				sB.append(sp1);
 				itoa(this->Get_region(i)->getNFO(), nFo, 10);
 				sB.append(nFo);
+				sB.append(sp1);
+				itoa(this->Get_region(i)->getNPO(), nP, 10);
+				sB.append(nP);
+				sB.append(sp1);
+				itoa(this->Get_region(i)->getNIO(), nI, 10);
+				sB.append(nI);
 				break;
 			case 2:
 				itoa(this->Get_region(i)->getNVO(), nVo, 10);
@@ -145,6 +181,12 @@ void Restaurant::PrintInfo(int cts )
 				sC.append(sp1);
 				itoa(this->Get_region(i)->getNFO(), nFo, 10);
 				sC.append(nFo);
+				sC.append(sp1);
+				itoa(this->Get_region(i)->getNPO(), nP, 10);
+				sC.append(nP);
+				sC.append(sp1);
+				itoa(this->Get_region(i)->getNIO(), nI, 10);
+				sC.append(nI);
 				break;
 			default:
 				itoa(this->Get_region(i)->getNVO(), nVo, 10);
@@ -155,7 +197,12 @@ void Restaurant::PrintInfo(int cts )
 				sD.append(sp1);
 				itoa(this->Get_region(i)->getNFO(), nFo, 10);
 				sD.append(nFo);
-
+				sD.append(sp1);
+				itoa(this->Get_region(i)->getNPO(), nP, 10);
+				sD.append(nP);
+				sD.append(sp1);
+				itoa(this->Get_region(i)->getNIO(), nI, 10);
+				sD.append(nI);
 		}
 	}
 	pGUI->PrintMessage(hg, hs, sA, sB, sC, sD, st);
@@ -408,7 +455,7 @@ void Restaurant::Load()
 	input.open(FileName + ".txt");
 
 	int SN, SF, SV;  // motorcycles speeds line 
-	int NumN, Numf, NumVip;//Num of motorcycle in each region 
+	int NumN, Numf, NumVip,NumofT;//Num of motorcycle in each region 
 	
 		/*variables to help in read file*/
 	int numEvents;
@@ -423,6 +470,7 @@ void Restaurant::Load()
 	Motorcycle**VIP;
 	Motorcycle**Norm;
 	Motorcycle**Froz;
+	Table *tables[4];
 	Event*pEvent;
 
 		if (!input.is_open())
@@ -430,20 +478,20 @@ void Restaurant::Load()
 			pGUI->PrintMessage("an error occured while loading try again");
 			return;
 		}
-		input >> SN >> SF >> SV;	// motorcycles speeds line
+		//input >> SN >> SF >> SV;	// motorcycles speeds line
 
 		for (int i = 0; i < REG_CNT; i++)
 		{
-			input >> NumN >> Numf >> NumVip;
+			input >> NumN >> Numf >> NumVip>>NumofT;
 			VIP = new Motorcycle*[NumVip];
 			Norm = new Motorcycle*[NumN];
 			Froz = new Motorcycle*[Numf];
-			
 			for (int j = 1; j <=NumN; j++)
 			{
 				Norm[j-1] = new Motorcycle;
 				Norm[j-1]->Set_ID(j);
 				Norm[j-1]->Set_Type(TYPE_NRM);
+				input >> SN;
 				Norm[j-1]->Set_Speed(SN);
 
 			}
@@ -452,6 +500,7 @@ void Restaurant::Load()
 				Froz[k-1] = new Motorcycle;
 				Froz[k-1]->Set_ID(k+ NumN);
 				Froz[k-1]->Set_Type(TYPE_FROZ);
+				input >> SF; 
 				Froz[k-1]->Set_Speed(SF);
 
 			}
@@ -460,11 +509,21 @@ void Restaurant::Load()
 				VIP[l-1] = new Motorcycle;
 				VIP[l-1]->Set_ID(l+ NumN+ Numf);
 				VIP[l-1]->Set_Type(TYPE_VIP);
+				input >> SV; 
 				VIP[l-1]->Set_Speed(SV);
-
+			}
+			tables[i] = new Table[NumofT];
+			for (int m=0;m<NumofT;m++)
+			{
+				int Returntime;
+				input >> Returntime;
+				tables[i][m].Set_ID(m + 1); 
+				tables[i][m].Set_ReturnTS(Returntime); 
+				tables[i][m].Set_Status(IDLE);
 			}
 			
-			Get_region(i)->Set_motors(NumN, Numf, NumVip, Norm, Froz, VIP);
+			
+			Get_region(i)->Set_motors(NumN, Numf, NumVip, NumofT, Norm, Froz, VIP,tables[i]);
 		}
 
 		input >> AutoPromotionlimit;
@@ -526,25 +585,31 @@ void Restaurant::ProcessOrders(int currTS, string & a, string & b, string & c, s
 		case(0):
 			this->Get_region(i)->AssignVIP(currTS,a,this);
 			this->Get_region(i)->AssignFroz(currTS,a, this);
-			this->Get_region(i)->AssignNorm(currTS,a, this);
+			this->Get_region(i)->AssignNorm(currTS, a, this);
+			this->Get_region(i)->AssignParty(currTS, this);
+			this->Get_region(i)->AssignIN(currTS, this);
 			break;
 		case(1):
 			this->Get_region(i)->AssignVIP(currTS,b, this);
 			this->Get_region(i)->AssignFroz(currTS,b, this);
 			this->Get_region(i)->AssignNorm(currTS,b, this);
+			this->Get_region(i)->AssignParty(currTS, this);
+			this->Get_region(i)->AssignIN(currTS, this);
 			break;
 		case(2):
 			this->Get_region(i)->AssignVIP(currTS,c, this);
 			this->Get_region(i)->AssignFroz(currTS,c, this);
 			this->Get_region(i)->AssignNorm(currTS,c, this);
+			this->Get_region(i)->AssignParty(currTS, this);
+			this->Get_region(i)->AssignIN(currTS, this);
 			break;
 		case(3):
 			this->Get_region(i)->AssignVIP(currTS,d, this);
 			this->Get_region(i)->AssignFroz(currTS,d, this);
 			this->Get_region(i)->AssignNorm(currTS,d, this);
+			this->Get_region(i)->AssignParty(currTS, this);
+			this->Get_region(i)->AssignIN(currTS, this);
 		}
-
-		
 	}
 }
 
@@ -581,6 +646,16 @@ void Restaurant::interactive_mode()
 				ActiveOrds.enqueue(dum);
 				norm.Delete(dum); /// back
 			}
+			Queue<Order*> par = this->Get_region(i)->getpartyOrds();
+			while (!par.isEmpty()) {
+				par.dequeue(dum);
+				ActiveOrds.enqueue(dum);
+			}
+			Queue<Order*> In = this->Get_region(i)->getINOrds();
+			while (!In.isEmpty()) {
+				In.dequeue(dum);
+				ActiveOrds.enqueue(dum);
+			}
 		}
 		while (ActiveOrds.dequeue(dum))
 		{
@@ -588,6 +663,7 @@ void Restaurant::interactive_mode()
 			pGUI->UpdateInterface();
 		}
 		UpdateMoto(CurrentTimeStep);
+		Update_tables(CurrentTimeStep);
 		this->PrintInfo(CurrentTimeStep);
 		pGUI->waitForClick();
 		pGUI->ResetDrawingList();
@@ -612,6 +688,17 @@ void Restaurant::interactive_mode()
 				norm.get_first(dum);
 				ActiveOrds.enqueue(dum);
 				norm.Delete(dum); /// back
+			}
+			Queue<Order*> par = this->Get_region(i)->getpartyOrds();
+			while (!par.isEmpty()) {
+				par.dequeue(dum);
+				ActiveOrds.enqueue(dum);
+			}
+			Queue<Order*> In = this->Get_region(i)->getINOrds();
+			while (!In.isEmpty()) {
+				In.dequeue(dum);
+				ActiveOrds.enqueue(dum);
+
 			}
 		}
 
@@ -805,9 +892,16 @@ void Restaurant::output()
 			case 1:
 				output_file << "F" << endl; 
 				break; 
-			default:
+			case 2:
 				output_file << "V" << endl;
 				break; 
+			case 3:
+				output_file << "Q" << endl;
+				break;
+			default:
+				output_file << "I" << endl;
+				break;
+
 			}
 			//delete DeliveredOrders[index];
 			// here I won't delete it because I won't create a new one in the "asssing functions "so it will be deleted when the destructor of the list is called
@@ -872,6 +966,14 @@ bool Restaurant::Returned_Done()
 			return false; 
 	}
 	return true; 
+}
+
+void Restaurant::Update_tables(int currts)
+{
+	for (int i=0 ; i< 4 ; i++)
+	{
+		this->Get_region(i)->Return_Available_tables(currts);
+	}
 }
 
 

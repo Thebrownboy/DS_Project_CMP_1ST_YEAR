@@ -17,6 +17,8 @@ enum ORD_TYPE	//types of orders
 	TYPE_NRM,	//normal order
 	TYPE_FROZ,	//frozen
 	TYPE_VIP,	//VIP
+	TYPE_PARTY,// adding first one 
+	TYPE_INREST,// adding the second one // this order is an order that is not has to be assinged in a mortor cycle 
 	TYPE_CNT	//Number of types
 
 };

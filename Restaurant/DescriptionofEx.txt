@@ -1,0 +1,3 @@
+// the ith line contian a four intgers num of motos from each type then the num of tables in the ith region 
+// then four lines the jth line contian the speed of the motos and the last line contain the current time of each table .
+and this steps will be repeated for each region .

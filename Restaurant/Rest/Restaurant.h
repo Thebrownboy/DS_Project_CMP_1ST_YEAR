@@ -61,6 +61,7 @@ public:
 	void Add_Delivered_Order(Order*);
 	void Auto_Promotion(int); 
 	bool Returned_Done(); 
+	void Update_tables(int);
 	/*   END sir_sayed modification    */
 
 };

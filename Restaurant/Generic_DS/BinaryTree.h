@@ -61,27 +61,62 @@ inline void BinaryTree<Type>::Insert(const Type& Data)
 		return;
 	}
 	Treenode<Type>*  path = Root;
-	while (true)
+	if (std::is_pointer<Type>::value) 
 	{
-		if (Data > path->Get_data())
+		while (true)
 		{
-			if (path->Get_right() == NULL) {
-				path->Set_right(curr);
-				return;
-			}
-			path = path->Get_right();
-		}
-		else
-		{
-			if (path->Get_left() == NULL)
+			if (*Data > *(path->Get_data()))
 			{
-				path->Set_left(curr);
-				return;
+				if (path->Get_right() != NULL)
+					path = path->Get_right();
+				else
+				{
+					path->Set_right(curr);
+					return;
+				}
 			}
-			path = path->Get_left();
+			else
+			{
+				if (path->Get_left() != NULL)
+					path = path->Get_left();
+				else
+				{
+					path->Set_left(curr);
+					return;
+				}
+			}
 		}
 	}
-}
+	else 
+	{
+	
+		while (true)
+		{
+			if (Data > path->Get_data())
+			{
+				if (path->Get_right() != NULL)
+					path = path->Get_right();
+				else
+				{
+					path->Set_right(curr);
+					return;
+				}
+			}
+			else
+			{
+				if (path->Get_left() != NULL)
+					path = path->Get_left();
+				else
+				{
+					path->Set_left(curr);
+					return;
+				}
+			}
+		}
+	}
+	
+	}
+
 
 template<class Type>
 inline void BinaryTree<Type>::Delete_max()

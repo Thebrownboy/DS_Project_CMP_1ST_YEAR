@@ -113,6 +113,7 @@
     <ClInclude Include="Rest\Order.h" />
     <ClInclude Include="Rest\Region.h" />
     <ClInclude Include="Rest\Restaurant.h" />
+    <ClInclude Include="Rest\Table.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CMUgraphicsLib\CMUgraphics.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="Rest\Order.cpp" />
     <ClCompile Include="Rest\Region.cpp" />
     <ClCompile Include="Rest\Restaurant.cpp" />
+    <ClCompile Include="Rest\Table.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMUgraphicsLib\Manual.txt" />

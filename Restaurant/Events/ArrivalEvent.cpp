@@ -28,8 +28,12 @@ ArrivalEvent::ArrivalEvent(int Timestep, char oType, int oID, int dist, double m
 		OrdType = TYPE_NRM;
 	else if (oType == 'V')
 		OrdType = TYPE_VIP;
-	else
+	else if (oType == 'F')
 		OrdType = TYPE_FROZ;
+	else if (oType == 'Q')
+		OrdType = TYPE_PARTY;
+	else
+		OrdType = TYPE_INREST;
 
 }
 void ArrivalEvent::Execute(Restaurant* pRest)
@@ -39,12 +43,20 @@ void ArrivalEvent::Execute(Restaurant* pRest)
 
 	Order *PO = new Order(this->OrderID, this->OrdType, this->OrdRegion,this->OrdDistance,this->OrdMoney,this->EventTime);
 	
-		if (this->OrdType == 0)
-				pRest->Get_region(this->OrdRegion)->insert_norm(PO);
-		else if (this->OrdType == 1)
-				pRest->Get_region(this->OrdRegion)->insert_frozorder(PO);
-		else if (this->OrdType == 2)
-				pRest->Get_region(this->OrdRegion)->insert_viporder(PO);
+	if (this->OrdType == 0)
+		pRest->Get_region(this->OrdRegion)->insert_norm(PO);
+	else if (this->OrdType == 1)
+		pRest->Get_region(this->OrdRegion)->insert_frozorder(PO);
+	else if (this->OrdType == 2)
+		pRest->Get_region(this->OrdRegion)->insert_viporder(PO);
+	else if (this->OrdType == 3)
+		pRest->Get_region(this->OrdRegion)->insert_party(PO);
+	else
+		pRest->Get_region(this->OrdRegion)->insert_INREst(PO);
+
+
+
+
 		
 }
 

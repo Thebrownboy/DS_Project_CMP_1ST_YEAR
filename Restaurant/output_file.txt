@@ -1,58 +1,21 @@
 ID     FT     AT     WT     ST     Type
-6      7      3      0      4      V
-5      7      3      0      4      N
-7      9      3      0      6      F
-123    10     6      0      4      V
-9      11     5      0      6      F
-10     11     5      0      6      F
-11     12     5      0      7      F
-8      14     5      0      9      N
-27     14     6      0      8      V
-121    14     6      0      8      V
-82     14     6      0      8      V
-121    15     6      5      4      V
-25     16     9      0      7      F
-12     17     6      0      11     V
-17     17     6      0      11     V
-124    17     6      0      11     V
-14     17     6      0      11     V
-13     17     6      0      11     V
-11     18     9      0      9      N
-72     18     6      8      4      V
-52     22     6      5      11     V
-122    23     6      13     4      V
-91     24     9      8      7      F
-71     25     9      8      8      F
-17     26     8      0      18     F
-123    26     6      16     4      V
-121    27     9      10     8      F
-27     28     2      0      26     N
-45     63     3      9      51     V
-45     63     3      9      51     V
-45     64     4      9      51     V
-1      78     2      0      76     N
-2      78     2      0      76     N
-31     78     2      0      76     N
-32     78     2      0      76     N
-33     78     2      0      76     N
-45     80     7      47     26     V
-45     132    9      97     26     V
-45     165    9      105    51     V
-45     165    8      106    51     V
-45     166    5      110    51     V
 Region A
-Orders : 22[Norm:14, Froz:0, VIP:8]
-MotorC:9[Norm:5, Froz:3, VIP: 1]
-Avg Wait =22.3636, Avg Serv = 34.7273
+Orders : 0[Norm:0, Froz:0, VIP:0,Party:0,INRest:0]
+MotorC:11[Norm:2, Froz:3, VIP: 6]
+Tables: 5
+Avg Wait =-nan(ind), Avg Serv = -nan(ind)
 Region B
-Orders : 16[Norm:1, Froz:0, VIP:15]
-MotorC:11[Norm:6, Froz:3, VIP: 2]
-Avg Wait =2.9375, Avg Serv = 7.375
+Orders : 0[Norm:0, Froz:0, VIP:0,Party:0,INRest:0]
+MotorC:11[Norm:2, Froz:3, VIP: 6]
+Tables: 5
+Avg Wait =-nan(ind), Avg Serv = -nan(ind)
 Region C
-Orders : 2[Norm:0, Froz:2, VIP:0]
-MotorC:7[Norm:4, Froz:2, VIP: 1]
-Avg Wait =0, Avg Serv = 12
+Orders : 0[Norm:0, Froz:0, VIP:0,Party:0,INRest:0]
+MotorC:11[Norm:2, Froz:3, VIP: 6]
+Tables: 5
+Avg Wait =-nan(ind), Avg Serv = -nan(ind)
 Region D
-Orders : 9[Norm:2, Froz:7, VIP:0]
-MotorC:15[Norm:9, Froz:4, VIP: 2]
-Avg Wait =2.88889, Avg Serv = 7.44444
+Orders : 0[Norm:0, Froz:0, VIP:0,Party:0,INRest:0]
+MotorC:11[Norm:2, Froz:3, VIP: 6]
+Tables: 5
+Avg Wait =-nan(ind), Avg Serv = -nan(ind)
