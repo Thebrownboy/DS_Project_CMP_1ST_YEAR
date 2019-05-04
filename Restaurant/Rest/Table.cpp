@@ -57,3 +57,13 @@ void Table::Set_Type(ORD_TYPE type)
 {
 	this->type = type;
 }
+
+void Table::set_returing_time(int returing_time)
+{
+	this->returing_time = returing_time; 
+}
+
+int Table::get_returing_time()
+{
+	return this->returing_time;
+}

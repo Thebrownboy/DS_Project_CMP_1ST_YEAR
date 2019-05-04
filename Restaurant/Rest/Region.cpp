@@ -471,6 +471,7 @@ void Region::AssignParty(int currTS, Restaurant * Rest)
 		Moto2->Set_ReturnTS(currTS +( 2 * int(ServTime2)));
 		UnavailableMoto.Insert(Moto1);
 		UnavailableMoto.Insert(Moto2);
+		NumPartyOrd--;
 
 	}
 }
@@ -481,7 +482,14 @@ void Region::AssignIN(int currTS, Restaurant * Rest)
 	{
 		Order* Ord;
 		IN_Rest.dequeue(Ord);
-		tables[Numofassignedtables].Set_Status(SERV);
+		int i = 0;
+		while (tables[i].Get_Staus() == SERV)
+		{
+			i++;
+
+		}
+		tables[i].Set_Status(SERV);
+		tables[i].set_returing_time(currTS+ tables[i].Get_ReturnTS());
 		Numoftables--; 
 		NumINOrd--; 
 		double  WaitTime = currTS - Ord->getArrivalTime();
@@ -491,6 +499,8 @@ void Region::AssignIN(int currTS, Restaurant * Rest)
 		Ord->set_sercive_time(0);
 		Ord->set_Waiting_time(int(WaitTime));
 		Rest->Add_Delivered_Order(Ord);
+		Numofassignedtables++;
+	
 	}
 
 }
@@ -535,6 +545,16 @@ int Region::getNIO()
 	return NumINOrd;
 }
 
+int Region::getFNP()
+{
+	return FixNumPartyOrd;
+}
+
+int Region::getNFT()
+{
+	return FixNumoftables;
+}
+
 int Region::getNT()
 {
 	return Numoftables; 
@@ -575,16 +595,17 @@ int Region::Get_fixed_Froz()
 void Region::Return_Available_tables(int currTs)
 {
 	int i = 0; 
-	while (tables[i].Get_Staus()!=IDLE)
+	while (i < FixNumoftables) 
 	{
-		if (tables[i].Get_ReturnTS() == currTs)
+		if(tables[i].get_returing_time()<=currTs&& tables[i].Get_Staus() == SERV)
 		{
 			tables[i].Set_Status(IDLE);
+			Numofassignedtables--; 
 			Numoftables++;
-			Numofassignedtables--;
 		}
-		i++; 
+		i++;
 	}
+
 }
 
 Region::~Region()

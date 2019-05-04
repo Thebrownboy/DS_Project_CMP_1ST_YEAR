@@ -611,6 +611,7 @@ void Restaurant::ProcessOrders(int currTS, string & a, string & b, string & c, s
 			this->Get_region(i)->AssignNorm(currTS,d, this);
 			this->Get_region(i)->AssignParty(currTS, this);
 			this->Get_region(i)->AssignIN(currTS, this);
+			break; 
 		}
 	}
 }
@@ -966,6 +967,8 @@ bool Restaurant::Returned_Done()
 			return false;
 		if (this->Get_region(i)->getNVM() != this->Get_region(i)->Get_fixed_VIP())
 			return false; 
+		if (this->Get_region(i)->getNT() != this->Get_region(i)->getNFT())
+			return false;
 	}
 	return true; 
 }

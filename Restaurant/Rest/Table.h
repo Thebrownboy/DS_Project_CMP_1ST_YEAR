@@ -6,7 +6,7 @@ class Table
 	int ID;
 	ORD_TYPE type;
 	STATUS	status;
-	int Return_time;
+	int Return_time,returing_time;
 	REGION	region;
 public:
 	Table(); 
@@ -20,6 +20,8 @@ public:
 	int Get_ReturnTS();
 	void Set_ID(int id);
 	void Set_Type(ORD_TYPE type);
+	void set_returing_time(int);
+	int get_returing_time(); 
 
 
 

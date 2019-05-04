@@ -65,7 +65,8 @@ public:
 	int getNFO();
 	int getNPO();
 	int getNIO();
-
+	int getFNP();
+	int getNFT(); 
 	int getNT();
 	void incVIPords();
 	void decNormOrds();
