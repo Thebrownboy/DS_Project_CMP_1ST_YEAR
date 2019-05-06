@@ -43,18 +43,21 @@ public:
 	void AddEvent(Event* pE);	//adds a new event to the queue of events
 	void ExecuteEvents(int TimeStep);	//executes all events at current timestep
 	void RunSimulation();
-	void PrintInfo(int);
+	void PrintInfo(int, string a = "", string b = "", string c = "", string d = "");
 	void Silent_Mode(); 
 	void StepByStep_Mode(); 
 
 	//added by (abdalla )
 
 	/*   start sir_sayed modification    */
-	void interactive_mode();
+	
 	void Load();
+	Region *Get_region(int i);
+	/*   END sir_sayed modification    */
+	void interactive_mode();
 	void UpdateMoto(int currTS);
 	void ProcessOrders(int currTS, string & a, string & b, string & c, string & d);
-	Region *Get_region(int i);
+	void DrawActiveOrds();
 
 	bool OrdersDone();
 	void output();
@@ -62,7 +65,7 @@ public:
 	void Auto_Promotion(int); 
 	bool Returned_Done(); 
 	void Update_tables(int);
-	/*   END sir_sayed modification    */
+	
 
 };
 

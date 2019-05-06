@@ -163,6 +163,10 @@ void Region::AssignNorm(int currTS, string & a, Restaurant * REst )
 		Ord->set_sercive_time(int(ServTime)); 
 		Ord->set_Waiting_time(int(WaitTime)); 
 		REst->Add_Delivered_Order(Ord);
+		
+		Moto->AddDist(Ord->GetDistance());
+		
+		
 		Moto->Set_ReturnTS(FinTime + ServTime);
 		NormMoto.Dequeue();
 		//data for printing
@@ -201,6 +205,9 @@ void Region::AssignNorm(int currTS, string & a, Restaurant * REst )
 		Ord->set_sercive_time(int (ServTime));
 		Ord->set_Waiting_time(int(WaitTime));
 		REst->Add_Delivered_Order(Ord);
+
+		Moto->AddDist(Ord->GetDistance());
+
 		Moto->Set_ReturnTS(FinTime + ServTime);
 		VIPMoto.Dequeue();
 		UnavailableMoto.Insert(Moto);
@@ -246,6 +253,9 @@ void Region::AssignVIP(int currTS, string & a, Restaurant *  REst)
 		Ord->set_sercive_time(int(ServTime));
 		Ord->set_Waiting_time(int(WaitTime));
 		REst->Add_Delivered_Order(Ord);
+
+		Moto->AddDist(Ord->GetDistance());
+
 		Moto->Set_ReturnTS(FinTime + ServTime);
 		VIPMoto.Dequeue();
 		UnavailableMoto.Insert(Moto);
@@ -282,6 +292,10 @@ void Region::AssignVIP(int currTS, string & a, Restaurant *  REst)
 		Ord->set_sercive_time(int(ServTime));
 		Ord->set_Waiting_time(int(WaitTime));
 		REst->Add_Delivered_Order(Ord);
+
+		Moto->AddDist(Ord->GetDistance());
+
+
 		Moto->Set_ReturnTS(FinTime + ServTime);
 		NormMoto.Dequeue();
 		UnavailableMoto.Insert(Moto);
@@ -316,6 +330,9 @@ void Region::AssignVIP(int currTS, string & a, Restaurant *  REst)
 		Ord->set_sercive_time(int(ServTime));
 		Ord->set_Waiting_time(int(WaitTime));
 		REst->Add_Delivered_Order(Ord);
+
+		Moto->AddDist(Ord->GetDistance());
+
 		Moto->Set_ReturnTS(FinTime + ServTime);
 		FrozMoto.Dequeue();
 		UnavailableMoto.Insert(Moto);
@@ -356,6 +373,9 @@ void Region::AssignFroz(int currTS, string & a, Restaurant * REst )
 		Ord->set_sercive_time(int (ServTime));
 		Ord->set_Waiting_time(int (WaitTime));
 		REst->Add_Delivered_Order(Ord);
+
+		Moto->AddDist(Ord->GetDistance());
+
 		Moto->Set_ReturnTS(FinTime + ServTime);
 		FrozMoto.Dequeue();
 		UnavailableMoto.Insert(Moto);
@@ -381,7 +401,7 @@ void Region::AssignFroz(int currTS, string & a, Restaurant * REst )
 
 }
 
-void Region::AssignParty(int currTS, Restaurant * Rest)
+void Region::AssignParty(int currTS,string & a, Restaurant * Rest)
 {
 	while (!Partyord.isEmpty() && NumFrozMoto + NumNormMoto + NumVIPMoto >= 2) 
 	{
@@ -409,7 +429,7 @@ void Region::AssignParty(int currTS, Restaurant * Rest)
 				}
 			}
 		}
-		if (count >2)
+		if (count > 0)
 		{
 		 
 			while (count > 0 && !VIPMoto.Is_Empty())
@@ -467,17 +487,54 @@ void Region::AssignParty(int currTS, Restaurant * Rest)
 			Ord->set_sercive_time(int(ServTime2));
 		Ord->set_Waiting_time(int(WaitTime));
 		Rest->Add_Delivered_Order(Ord);
+
+		Moto1->AddDist(Ord->GetDistance());
+		Moto2->AddDist(Ord->GetDistance());
+
+
+
+
 		Moto1->Set_ReturnTS(currTS + (2 * int(ServTime1)));
 		Moto2->Set_ReturnTS(currTS +( 2 * int(ServTime2)));
 		UnavailableMoto.Insert(Moto1);
 		UnavailableMoto.Insert(Moto2);
 		NumPartyOrd--;
-
+		//data for printing
+		char Moto1ID[4];
+		itoa(Moto1->GetID(), Moto1ID, 10);
+		char Moto2ID[4];
+		itoa(Moto2->GetID(), Moto2ID, 10);
+		char OrdID[4];
+		itoa(Ord->GetID(), OrdID, 10);
+		string OrdType = "P";
+		string Moto1Type;
+		switch (Moto1->GetORD_Type()) {
+		case 0: Moto1Type = "N";
+		case 1: Moto1Type = "F";
+		case 2: Moto1Type = "V";
+		}
+		string Moto2Type;
+		switch (Moto2->GetORD_Type()) {
+		case 0: Moto2Type = "N";
+		case 1: Moto2Type = "F";
+		case 2: Moto2Type = "V";
+		}
+		a.append(Moto1Type);
+		a.append(Moto1ID);
+		a.append("&");
+		a.append(Moto2Type);
+		a.append(Moto2ID);
+		a.append("(");
+		a.append(OrdType);
+		a.append(OrdID);
+		a.append(")");
+		a.append(" ");
 	}
 }
 
-void Region::AssignIN(int currTS, Restaurant * Rest)
-{
+void Region::AssignIN(int currTS, string & a, Restaurant * Rest)
+{	
+	
 	while(!IN_Rest.isEmpty()&&Numoftables>0)
 	{
 		Order* Ord;
@@ -500,9 +557,41 @@ void Region::AssignIN(int currTS, Restaurant * Rest)
 		Ord->set_Waiting_time(int(WaitTime));
 		Rest->Add_Delivered_Order(Ord);
 		Numofassignedtables++;
-	
+		//data for printing 
+		char TableID[4];
+		itoa(i+1, TableID, 10);
+		char OrdID[4];
+		itoa(Ord->GetID(), OrdID, 10);
+		string MotoType = "T";
+		string OrdType = "I";
+		a.append(MotoType);
+		a.append(TableID);
+		a.append("(");
+		a.append(OrdType);
+		a.append(OrdID);
+		a.append(")");
+		a.append(" ");
 	}
+	
 
+}
+
+int Region::calcDelayFactor(int currTS, Motorcycle * Moto)
+{
+	int delay=0;
+	// Traffic problem 
+	// rush hour is at 3pm= 15 & ends at 6 pm 
+	if ((currTS - 15) % 24 == 0) delay += 1;
+	else if ((currTS - 16) % 24 == 0 || (currTS - 17) % 24 == 0) delay += 2;
+	else if ((currTS - 18) % 24 == 0) delay += 1;
+
+	// Moto damage problem
+	// Moto health is a funcn of conered distance and speed 
+	
+	
+	int  MotoHealthCoeff = Moto->Get_totDist() + Moto->Get_numDelOrds() * Moto->Get_speed();
+
+	return 0;
 }
 
 int Region::getNVM()

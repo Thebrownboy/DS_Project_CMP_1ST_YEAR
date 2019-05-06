@@ -13,7 +13,10 @@ class Motorcycle
 	REGION	region;	//region of the motorcycle .it will be const  forever .. will be const forever  
 	STATUS	status;	//idle or in-service
 	int returnTS;
-
+	int totDistace=0;
+	int numDeliveredOrds = 0;
+	int noMinorDamage = 0;
+	int noMajorDamage = 0;
 public:
 	Motorcycle(int ,ORD_TYPE,int,REGION);
 	virtual ~Motorcycle();
@@ -28,14 +31,16 @@ public:
 	int Get_ReturnTS();
 	/*   start sir_sayed modification    */
 	Motorcycle();
+
 	void Set_ID(int id);
 	void Set_Type(ORD_TYPE type);
-
+	void AddDist(int);
+	int Get_totDist();
 	bool operator >(Motorcycle &Mo)const;
 	bool operator <(Motorcycle &Mo)const ;
 	bool operator==(Motorcycle &Mo)const ;
-
-
+	void inc_numDelOrds();
+	int Get_numDelOrds();
 
 
 

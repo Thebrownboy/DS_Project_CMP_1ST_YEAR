@@ -78,6 +78,16 @@ void Motorcycle::Set_Type(ORD_TYPE type)
 	this->type = type;
 }
 
+void Motorcycle::AddDist(int d)
+{
+	totDistace += d;
+}
+
+int Motorcycle::Get_totDist()
+{
+	return totDistace;
+}
+
 bool Motorcycle::operator >(Motorcycle & M)const 
 {
 	if (speed > M.Get_speed())
@@ -101,4 +111,14 @@ bool Motorcycle::operator==(Motorcycle & Mo)const
 		return true;
 	else
 		return false;
+}
+
+void Motorcycle::inc_numDelOrds()
+{
+	numDeliveredOrds++;
+}
+
+int Motorcycle::Get_numDelOrds()
+{
+	return numDeliveredOrds;
 }
