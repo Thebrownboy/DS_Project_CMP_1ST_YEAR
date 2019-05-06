@@ -57,7 +57,7 @@ public:
 	void AssignFroz(int currTS, string & a,Restaurant *);
 	void AssignParty(int currTs,string &a, Restaurant *); 
 	void AssignIN(int currTs, string &a, Restaurant *);
-	int calcDelayFactor(int currTS ,Motorcycle* Moto);
+	int calcDelayTraffic(int currTS );
 	int getNVM();
 	int getNFM();
 	int getNNM();

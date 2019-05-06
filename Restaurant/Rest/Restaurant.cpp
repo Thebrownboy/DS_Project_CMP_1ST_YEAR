@@ -540,7 +540,7 @@ void Restaurant::ProcessOrders(int currTS, string & a, string & b, string & c, s
 			this->Get_region(i)->AssignParty(currTS,c, this);
 			this->Get_region(i)->AssignFroz(currTS,c, this);
 			this->Get_region(i)->AssignNorm(currTS,c, this);
-		this->Get_region(i)->AssignIN(currTS,c, this);
+			this->Get_region(i)->AssignIN(currTS,c, this);
 			break;
 		case(3):
 			this->Get_region(i)->AssignVIP(currTS,d, this);

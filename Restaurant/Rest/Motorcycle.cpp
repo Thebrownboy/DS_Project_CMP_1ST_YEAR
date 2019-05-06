@@ -63,6 +63,12 @@ int Motorcycle::Get_ReturnTS()
 	return this->returnTS;
 }
 
+bool Motorcycle::isDamaged()
+{
+	// Moto health is a function of speed & total distance 
+	return speed * numDeliveredOrds + totDistace > 10000;
+}
+
 Motorcycle::Motorcycle()
 {
 	status = IDLE;

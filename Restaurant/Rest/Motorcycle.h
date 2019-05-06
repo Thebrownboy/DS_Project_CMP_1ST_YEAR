@@ -17,6 +17,7 @@ class Motorcycle
 	int numDeliveredOrds = 0;
 	int noMinorDamage = 0;
 	int noMajorDamage = 0;
+
 public:
 	Motorcycle(int ,ORD_TYPE,int,REGION);
 	virtual ~Motorcycle();
@@ -29,6 +30,7 @@ public:
 	void Set_Speed(int);// for  bounus(//added by (abdalla ))
 	void Set_ReturnTS(int );
 	int Get_ReturnTS();
+	bool isDamaged();
 	/*   start sir_sayed modification    */
 	Motorcycle();
 

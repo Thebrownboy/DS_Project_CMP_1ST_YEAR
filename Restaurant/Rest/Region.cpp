@@ -130,21 +130,34 @@ void Region::returnAvailMoto(int currTS)
 	Motorcycle* Moto=new Motorcycle;
 	Moto->Set_ReturnTS(currTS);
 	while (UnavailableMoto.Pick( Moto)) {
-		switch (Moto->GetORD_Type()) {
-		case (0):
-			this->NormMoto.Enqueue(Moto);
-			this->NumNormMoto++;
-			break;
-		case(1):
-			this->FrozMoto.Enqueue(Moto);
-			this->NumFrozMoto++;
-			break;
-		case(2):
-			this->VIPMoto.Enqueue(Moto);
-			this->NumVIPMoto++;
+		if (!Moto->isDamaged() )
+			switch (Moto->GetORD_Type()) {
+			case (0):
+				this->NormMoto.Enqueue(Moto);
+				this->NumNormMoto++;
+				break;
+			case(1):
+				this->FrozMoto.Enqueue(Moto);
+				this->NumFrozMoto++;
+				break;
+			case(2):
+				this->VIPMoto.Enqueue(Moto);
+				this->NumVIPMoto++;
+			}
+		else {
+			switch (Moto->GetORD_Type()) {
+			case (0):
+				this->FixNumNormMoto--;
+				break;
+			case(1):
+				this->FixNumFrozMoto--;
+				break;
+			case(2):
+				this->FixNumVIPMoto--;
+			}
+
 		}
 	}
-
 }
 
 void Region::AssignNorm(int currTS, string & a, Restaurant * REst )
@@ -165,9 +178,9 @@ void Region::AssignNorm(int currTS, string & a, Restaurant * REst )
 		REst->Add_Delivered_Order(Ord);
 		
 		Moto->AddDist(Ord->GetDistance());
+		int TrafficDelay = calcDelayTraffic(currTS);
 		
-		
-		Moto->Set_ReturnTS(FinTime + ServTime);
+		Moto->Set_ReturnTS(FinTime + ServTime+ TrafficDelay);
 		NormMoto.Dequeue();
 		//data for printing
 		UnavailableMoto.Insert(Moto);
@@ -207,8 +220,9 @@ void Region::AssignNorm(int currTS, string & a, Restaurant * REst )
 		REst->Add_Delivered_Order(Ord);
 
 		Moto->AddDist(Ord->GetDistance());
+		int TrafficDelay = calcDelayTraffic(currTS);
 
-		Moto->Set_ReturnTS(FinTime + ServTime);
+		Moto->Set_ReturnTS(FinTime + ServTime + TrafficDelay);
 		VIPMoto.Dequeue();
 		UnavailableMoto.Insert(Moto);
 		this->NumNormOrd--;
@@ -255,8 +269,9 @@ void Region::AssignVIP(int currTS, string & a, Restaurant *  REst)
 		REst->Add_Delivered_Order(Ord);
 
 		Moto->AddDist(Ord->GetDistance());
+		int TrafficDelay = calcDelayTraffic(currTS);
 
-		Moto->Set_ReturnTS(FinTime + ServTime);
+		Moto->Set_ReturnTS(FinTime + ServTime + TrafficDelay);
 		VIPMoto.Dequeue();
 		UnavailableMoto.Insert(Moto);
 		this->NumVIPOrd--;
@@ -294,9 +309,9 @@ void Region::AssignVIP(int currTS, string & a, Restaurant *  REst)
 		REst->Add_Delivered_Order(Ord);
 
 		Moto->AddDist(Ord->GetDistance());
+		int TrafficDelay = calcDelayTraffic(currTS);
 
-
-		Moto->Set_ReturnTS(FinTime + ServTime);
+		Moto->Set_ReturnTS(FinTime + ServTime + TrafficDelay);
 		NormMoto.Dequeue();
 		UnavailableMoto.Insert(Moto);
 		this->NumVIPOrd--;
@@ -332,8 +347,9 @@ void Region::AssignVIP(int currTS, string & a, Restaurant *  REst)
 		REst->Add_Delivered_Order(Ord);
 
 		Moto->AddDist(Ord->GetDistance());
+		int TrafficDelay = calcDelayTraffic(currTS);
 
-		Moto->Set_ReturnTS(FinTime + ServTime);
+		Moto->Set_ReturnTS(FinTime + ServTime + TrafficDelay);
 		FrozMoto.Dequeue();
 		UnavailableMoto.Insert(Moto);
 		this->NumVIPOrd--;
@@ -375,8 +391,9 @@ void Region::AssignFroz(int currTS, string & a, Restaurant * REst )
 		REst->Add_Delivered_Order(Ord);
 
 		Moto->AddDist(Ord->GetDistance());
+		int TrafficDelay = calcDelayTraffic(currTS);
 
-		Moto->Set_ReturnTS(FinTime + ServTime);
+		Moto->Set_ReturnTS(FinTime + ServTime + TrafficDelay);
 		FrozMoto.Dequeue();
 		UnavailableMoto.Insert(Moto);
 		this->NumFrozOrd--;
@@ -491,11 +508,11 @@ void Region::AssignParty(int currTS,string & a, Restaurant * Rest)
 		Moto1->AddDist(Ord->GetDistance());
 		Moto2->AddDist(Ord->GetDistance());
 
+		int TrafficDelay = calcDelayTraffic(currTS);
 
 
-
-		Moto1->Set_ReturnTS(currTS + (2 * int(ServTime1)));
-		Moto2->Set_ReturnTS(currTS +( 2 * int(ServTime2)));
+		Moto1->Set_ReturnTS(currTS + (2 * int(ServTime1))+ TrafficDelay);
+		Moto2->Set_ReturnTS(currTS +( 2 * int(ServTime2))+ TrafficDelay);
 		UnavailableMoto.Insert(Moto1);
 		UnavailableMoto.Insert(Moto2);
 		NumPartyOrd--;
@@ -576,7 +593,7 @@ void Region::AssignIN(int currTS, string & a, Restaurant * Rest)
 
 }
 
-int Region::calcDelayFactor(int currTS, Motorcycle * Moto)
+int Region::calcDelayTraffic(int currTS)
 {
 	int delay=0;
 	// Traffic problem 
@@ -584,14 +601,7 @@ int Region::calcDelayFactor(int currTS, Motorcycle * Moto)
 	if ((currTS - 15) % 24 == 0) delay += 1;
 	else if ((currTS - 16) % 24 == 0 || (currTS - 17) % 24 == 0) delay += 2;
 	else if ((currTS - 18) % 24 == 0) delay += 1;
-
-	// Moto damage problem
-	// Moto health is a funcn of conered distance and speed 
-	
-	
-	int  MotoHealthCoeff = Moto->Get_totDist() + Moto->Get_numDelOrds() * Moto->Get_speed();
-
-	return 0;
+	return delay;
 }
 
 int Region::getNVM()

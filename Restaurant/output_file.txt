@@ -1,8 +1,7 @@
 ID     FT     AT     WT     ST     Type
 5      4      3      0      1      N
-1      5      2      0      3      N
-2      5      2      0      3      N
 45     5      2      0      3      Q
+45     5      3      0      2      Q
 7      5      3      0      2      F
 11     5      5      0      0      I
 11     5      5      0      0      I
@@ -15,26 +14,27 @@ ID     FT     AT     WT     ST     Type
 11     5      5      0      0      I
 11     5      5      0      0      I
 11     5      5      0      0      I
-31     6      2      0      4      N
-27     6      2      0      4      N
+1      6      2      0      4      N
+32     6      2      0      4      N
 6      7      3      0      4      V
 9      7      5      0      2      F
 10     7      5      0      2      F
 11     7      5      0      2      F
 8      7      5      0      2      N
 11     7      5      2      0      I
-32     8      2      0      6      N
+2      8      2      0      6      N
 11     8      5      3      0      I
 122    9      6      0      3      V
 121    9      6      0      3      V
-33     10     2      0      8      N
+31     10     2      0      8      N
 123    10     6      0      4      V
 123    10     6      0      4      V
 17     10     6      0      4      V
 11     10     10     0      0      I
 121    11     6      0      5      V
 72     11     6      0      5      V
-45     11     3      5      3      Q
+33     11     2      6      3      N
+27     11     2      6      3      N
 25     11     9      0      2      F
 91     11     9      0      2      F
 71     11     9      0      2      F
@@ -57,7 +57,7 @@ Region A
 Orders : 6[Norm:6, Froz:0, VIP:0,Party:2,INRest:5]
 MotorC:9[Norm:5, Froz:3, VIP: 1]
 Tables: 3
-Avg Wait =0.769231, Avg Serv = 2.61538
+Avg Wait =1.30769, Avg Serv = 2.53846
 Region B
 Orders : 16[Norm:1, Froz:0, VIP:15,Party:0,INRest:4]
 MotorC:11[Norm:6, Froz:3, VIP: 2]
