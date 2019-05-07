@@ -15,14 +15,12 @@ class Motorcycle
 	int returnTS;
 	int totDistace=0;
 	int numDeliveredOrds = 0;
-	int noMinorDamage = 0;
-	int noMajorDamage = 0;
 
 public:
 	Motorcycle(int ,ORD_TYPE,int,REGION);
 	virtual ~Motorcycle();
 	int GetID();
-	ORD_TYPE GetORD_Type();
+	ORD_TYPE Get_Type();
 	int Get_speed();
 	REGION Get_Region();
 	STATUS Get_Staus();
@@ -31,18 +29,21 @@ public:
 	void Set_ReturnTS(int );
 	int Get_ReturnTS();
 	bool isDamaged();
+	void inc_numDelOrds();
+	int Get_numDelOrds();
+	void AddDist(int);
+	int Get_totDist();
+	int Get_noDelv();
 	/*   start sir_sayed modification    */
 	Motorcycle();
 
 	void Set_ID(int id);
 	void Set_Type(ORD_TYPE type);
-	void AddDist(int);
-	int Get_totDist();
+
 	bool operator >(Motorcycle &Mo)const;
 	bool operator <(Motorcycle &Mo)const ;
 	bool operator==(Motorcycle &Mo)const ;
-	void inc_numDelOrds();
-	int Get_numDelOrds();
+
 
 
 

@@ -128,10 +128,11 @@ bool Region::PickOrd(Order* & Or)
 void Region::returnAvailMoto(int currTS)
 {
 	Motorcycle* Moto=new Motorcycle;
+	Motorcycle* Temp = Moto;
 	Moto->Set_ReturnTS(currTS);
-	while (UnavailableMoto.Pick( Moto)) {
-		if (!Moto->isDamaged() )
-			switch (Moto->GetORD_Type()) {
+	while (DeliveringMoto.Pick(Moto)) {
+		if (!Moto->isDamaged())
+			switch (Moto->Get_Type()) {
 			case (0):
 				this->NormMoto.Enqueue(Moto);
 				this->NumNormMoto++;
@@ -144,20 +145,9 @@ void Region::returnAvailMoto(int currTS)
 				this->VIPMoto.Enqueue(Moto);
 				this->NumVIPMoto++;
 			}
-		else {
-			switch (Moto->GetORD_Type()) {
-			case (0):
-				this->FixNumNormMoto--;
-				break;
-			case(1):
-				this->FixNumFrozMoto--;
-				break;
-			case(2):
-				this->FixNumVIPMoto--;
-			}
-
-		}
 	}
+	delete Temp;
+
 }
 
 void Region::AssignNorm(int currTS, string & a, Restaurant * REst )
@@ -176,14 +166,14 @@ void Region::AssignNorm(int currTS, string & a, Restaurant * REst )
 		Ord->set_sercive_time(int(ServTime)); 
 		Ord->set_Waiting_time(int(WaitTime)); 
 		REst->Add_Delivered_Order(Ord);
-		
+		Moto->inc_numDelOrds();
 		Moto->AddDist(Ord->GetDistance());
 		int TrafficDelay = calcDelayTraffic(currTS);
 		
 		Moto->Set_ReturnTS(FinTime + ServTime+ TrafficDelay);
 		NormMoto.Dequeue();
+		
 		//data for printing
-		UnavailableMoto.Insert(Moto);
 		this->NormOr.Delete(Ord);
 		this->NumNormMoto--;
 		this->NumNormOrd--;
@@ -202,7 +192,12 @@ void Region::AssignNorm(int currTS, string & a, Restaurant * REst )
 		a.append(" ");
 		
 		
-		//print out in output file
+		//Damage Bonus
+		if (Moto->isDamaged()) {
+			delete Moto;
+			FixNumNormMoto--;
+		}
+		else DeliveringMoto.Insert(Moto);
 		
 	}
 	while (!VIPMoto.Is_Empty() && !NormOr.is_empty()) {
@@ -218,13 +213,13 @@ void Region::AssignNorm(int currTS, string & a, Restaurant * REst )
 		Ord->set_sercive_time(int (ServTime));
 		Ord->set_Waiting_time(int(WaitTime));
 		REst->Add_Delivered_Order(Ord);
-
+		Moto->inc_numDelOrds();
 		Moto->AddDist(Ord->GetDistance());
 		int TrafficDelay = calcDelayTraffic(currTS);
 
 		Moto->Set_ReturnTS(FinTime + ServTime + TrafficDelay);
 		VIPMoto.Dequeue();
-		UnavailableMoto.Insert(Moto);
+		
 		this->NumNormOrd--;
 		this->NumVIPMoto--;
 		NormOr.Delete(Ord);
@@ -234,7 +229,7 @@ void Region::AssignNorm(int currTS, string & a, Restaurant * REst )
 		char OrdID[4];
 		itoa(Ord->GetID(), OrdID, 10);
 		string OrdType = "N";
-		string MotoType = "N";
+		string MotoType = "V";
 		a.append(MotoType);
 		a.append(MotoID);
 		a.append("(");
@@ -242,7 +237,12 @@ void Region::AssignNorm(int currTS, string & a, Restaurant * REst )
 		a.append(OrdID);
 		a.append(")");
 		a.append(" ");
-		//print out in output file
+		//Damage Bonus 
+		if (Moto->isDamaged()) {
+			delete Moto;
+			FixNumVIPMoto--;
+		}
+		else DeliveringMoto.Insert(Moto);
 		
 	}
 	
@@ -267,13 +267,13 @@ void Region::AssignVIP(int currTS, string & a, Restaurant *  REst)
 		Ord->set_sercive_time(int(ServTime));
 		Ord->set_Waiting_time(int(WaitTime));
 		REst->Add_Delivered_Order(Ord);
-
+		Moto->inc_numDelOrds();
 		Moto->AddDist(Ord->GetDistance());
 		int TrafficDelay = calcDelayTraffic(currTS);
 
 		Moto->Set_ReturnTS(FinTime + ServTime + TrafficDelay);
 		VIPMoto.Dequeue();
-		UnavailableMoto.Insert(Moto);
+		
 		this->NumVIPOrd--;
 		this->NumVIPMoto--;
 		//data for printing
@@ -291,7 +291,12 @@ void Region::AssignVIP(int currTS, string & a, Restaurant *  REst)
 		a.append(")");
 		a.append(" ");
 		VipOr.Dequeue();
-		//print out in output file
+		//Damage Bonus
+		if (Moto->isDamaged()) {
+			delete Moto;
+			FixNumVIPMoto--;
+		}
+		else DeliveringMoto.Insert(Moto);
 	}
 	while (!NormMoto.Is_Empty() && !VipOr.Is_Empty()) {
 		Order* Ord;
@@ -307,13 +312,13 @@ void Region::AssignVIP(int currTS, string & a, Restaurant *  REst)
 		Ord->set_sercive_time(int(ServTime));
 		Ord->set_Waiting_time(int(WaitTime));
 		REst->Add_Delivered_Order(Ord);
-
+		Moto->inc_numDelOrds();
 		Moto->AddDist(Ord->GetDistance());
+		//Traffic Bonus
 		int TrafficDelay = calcDelayTraffic(currTS);
 
 		Moto->Set_ReturnTS(FinTime + ServTime + TrafficDelay);
 		NormMoto.Dequeue();
-		UnavailableMoto.Insert(Moto);
 		this->NumVIPOrd--;
 		this->NumNormMoto--;
 		//data for printing
@@ -330,7 +335,12 @@ void Region::AssignVIP(int currTS, string & a, Restaurant *  REst)
 		a.append(")");
 		a.append(" ");
 		VipOr.Dequeue();
-		//print out in output file
+		//Damage Bonus 
+		if (Moto->isDamaged()) {
+			delete Moto;
+			FixNumNormMoto--;
+		}
+		else DeliveringMoto.Insert(Moto);
 	}
 	while (!FrozMoto.Is_Empty() && !VipOr.Is_Empty()) {
 		Order* Ord;
@@ -345,13 +355,14 @@ void Region::AssignVIP(int currTS, string & a, Restaurant *  REst)
 		Ord->set_sercive_time(int(ServTime));
 		Ord->set_Waiting_time(int(WaitTime));
 		REst->Add_Delivered_Order(Ord);
-
+		Moto->inc_numDelOrds();
 		Moto->AddDist(Ord->GetDistance());
+		//Trffic Bonus
 		int TrafficDelay = calcDelayTraffic(currTS);
 
 		Moto->Set_ReturnTS(FinTime + ServTime + TrafficDelay);
 		FrozMoto.Dequeue();
-		UnavailableMoto.Insert(Moto);
+		
 		this->NumVIPOrd--;
 		this->NumFrozMoto--;
 		//data for printing
@@ -369,7 +380,12 @@ void Region::AssignVIP(int currTS, string & a, Restaurant *  REst)
 		a.append(")");
 		a.append(" ");
 		VipOr.Dequeue();
-		//print out in output file
+		//Damage Bonus
+		if (Moto->isDamaged()) {
+			delete Moto;
+			FixNumFrozMoto--;
+		}
+		else DeliveringMoto.Insert(Moto);
 	}
 
 }
@@ -389,13 +405,14 @@ void Region::AssignFroz(int currTS, string & a, Restaurant * REst )
 		Ord->set_sercive_time(int (ServTime));
 		Ord->set_Waiting_time(int (WaitTime));
 		REst->Add_Delivered_Order(Ord);
-
+		Moto->inc_numDelOrds();
 		Moto->AddDist(Ord->GetDistance());
+		//Traffic Bonus
 		int TrafficDelay = calcDelayTraffic(currTS);
 
 		Moto->Set_ReturnTS(FinTime + ServTime + TrafficDelay);
 		FrozMoto.Dequeue();
-		UnavailableMoto.Insert(Moto);
+		
 		this->NumFrozOrd--;
 		this->NumFrozMoto--;
 		//data for printing
@@ -412,7 +429,12 @@ void Region::AssignFroz(int currTS, string & a, Restaurant * REst )
 		a.append(OrdID);
 		a.append(")");
 		a.append(" ");
-		//print out in output file
+		//Damage Bonus 
+		if (Moto->isDamaged()) {
+			delete Moto;
+			FixNumFrozMoto--;
+		}
+		else DeliveringMoto.Insert(Moto);
 		
 	}
 
@@ -504,17 +526,17 @@ void Region::AssignParty(int currTS,string & a, Restaurant * Rest)
 			Ord->set_sercive_time(int(ServTime2));
 		Ord->set_Waiting_time(int(WaitTime));
 		Rest->Add_Delivered_Order(Ord);
-
+		Moto1->inc_numDelOrds();
+		Moto2->inc_numDelOrds();
 		Moto1->AddDist(Ord->GetDistance());
 		Moto2->AddDist(Ord->GetDistance());
-
+		//Traffic bonus
 		int TrafficDelay = calcDelayTraffic(currTS);
 
 
 		Moto1->Set_ReturnTS(currTS + (2 * int(ServTime1))+ TrafficDelay);
 		Moto2->Set_ReturnTS(currTS +( 2 * int(ServTime2))+ TrafficDelay);
-		UnavailableMoto.Insert(Moto1);
-		UnavailableMoto.Insert(Moto2);
+		
 		NumPartyOrd--;
 		//data for printing
 		char Moto1ID[4];
@@ -525,15 +547,15 @@ void Region::AssignParty(int currTS,string & a, Restaurant * Rest)
 		itoa(Ord->GetID(), OrdID, 10);
 		string OrdType = "P";
 		string Moto1Type;
-		switch (Moto1->GetORD_Type()) {
-		case 0: Moto1Type = "N";
-		case 1: Moto1Type = "F";
+		switch (Moto1->Get_Type()) {
+		case 0: Moto1Type = "N"; break;
+		case 1: Moto1Type = "F"; break;
 		case 2: Moto1Type = "V";
 		}
 		string Moto2Type;
-		switch (Moto2->GetORD_Type()) {
-		case 0: Moto2Type = "N";
-		case 1: Moto2Type = "F";
+		switch (Moto2->Get_Type()) {
+		case 0: Moto2Type = "N"; break;
+		case 1: Moto2Type = "F"; break;
 		case 2: Moto2Type = "V";
 		}
 		a.append(Moto1Type);
@@ -546,6 +568,29 @@ void Region::AssignParty(int currTS,string & a, Restaurant * Rest)
 		a.append(OrdID);
 		a.append(")");
 		a.append(" ");
+		//Damaging Bonus 
+		if (Moto2->isDamaged()) {
+
+			switch (Moto1->Get_Type()) {
+			case 0: FixNumNormMoto--; break;
+			case 1: FixNumFrozMoto--; break;
+			case 2: FixNumVIPMoto--;
+			}
+			delete Moto1;
+		}
+		else DeliveringMoto.Insert(Moto1);
+
+
+		if (Moto2->isDamaged()) {
+
+			switch (Moto2->Get_Type()) {
+			case 0: FixNumNormMoto--; break;
+			case 1: FixNumFrozMoto--; break;
+			case 2: FixNumVIPMoto--;
+			}
+			delete Moto2;
+		}
+		else DeliveringMoto.Insert(Moto2);
 	}
 }
 
@@ -707,6 +752,27 @@ void Region::Return_Available_tables(int currTs)
 
 }
 
+bool Region::AcceptFrozOr()
+{
+	return FixNumFrozMoto>=1 ;
+}
+
+bool Region::AcceptVipOr()
+{
+	return FixNumVIPMoto+FixNumFrozMoto+FixNumNormMoto>=1;
+}
+
+bool Region::AcceptPartyOr()
+{
+	return FixNumFrozMoto+FixNumNormMoto+FixNumVIPMoto>=2;
+}
+
+bool Region::AcceptNormOr()
+{
+	return FixNumVIPMoto+FixNumNormMoto>=1;
+}
+
 Region::~Region()
 {
+	
 }

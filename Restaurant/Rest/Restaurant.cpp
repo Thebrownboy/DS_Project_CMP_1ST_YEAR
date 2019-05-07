@@ -411,7 +411,7 @@ void Restaurant::Load()
 	Motorcycle**Froz;
 	Table *tables[4];
 	Event*pEvent;
-
+	
 		if (!input.is_open())
 		{
 			pGUI->PrintMessage("an error occured while loading try again");
@@ -432,7 +432,7 @@ void Restaurant::Load()
 				Norm[j-1]->Set_Type(TYPE_NRM);
 				input >> SN;
 				Norm[j-1]->Set_Speed(SN);
-
+				
 			}
 			for (int k = 1; k <= Numf; k++)
 			{
@@ -441,7 +441,7 @@ void Restaurant::Load()
 				Froz[k-1]->Set_Type(TYPE_FROZ);
 				input >> SF; 
 				Froz[k-1]->Set_Speed(SF);
-
+				
 			}
 			for (int l = 1; l <= NumVip; l++)
 			{
@@ -450,6 +450,7 @@ void Restaurant::Load()
 				VIP[l-1]->Set_Type(TYPE_VIP);
 				input >> SV; 
 				VIP[l-1]->Set_Speed(SV);
+				
 			}
 			tables[i] = new Table[NumofT];
 			for (int m=0;m<NumofT;m++)
@@ -464,6 +465,7 @@ void Restaurant::Load()
 			
 			Get_region(i)->Set_motors(NumN, Numf, NumVip, NumofT, Norm, Froz, VIP,tables[i]);
 		}
+		
 
 		input >> AutoPromotionlimit;
 
@@ -623,7 +625,7 @@ void Restaurant::interactive_mode()
 		CurrentTimeStep++;
 
 	}
-	output(); 
+	output();
 }
 /*   END sir_sayed modification    */
 //void Restaurant::phase_one()
@@ -721,6 +723,12 @@ bool Restaurant::OrdersDone()
 	}
 	return true;
 }
+
+
+
+
+
+
 void Restaurant::output()
 {
 	ofstream output_file;

@@ -25,7 +25,7 @@ class Region
 	int FixNumVIPMoto, FixNumFrozMoto, FixNumNormMoto;
 	int NumVIPOrd, NumFrozOrd, NumNormOrd,NumPartyOrd=0,NumINOrd=0;
 	int FixNumVIPOrd, FixNumFrozOrd, FixNumNormOrd, FixNumPartyOrd=0, FixNumINOrd=0;
-	List <Motorcycle* > UnavailableMoto;
+	List <Motorcycle* > DeliveringMoto;
 	double Wating_time=0, Service_time=0;
 	int Numoftables = 0,FixNumoftables=0,Numofassignedtables=0;
 
@@ -76,6 +76,13 @@ public:
 	int Get_fixed_VIP();
 	int Get_fixed_Froz();
 	void Return_Available_tables(int );
+	bool AcceptFrozOr();
+	bool AcceptVipOr();
+	bool AcceptPartyOr();
+	bool AcceptNormOr();
+
+	// to be deleted
+	
 	~Region();
 };
 

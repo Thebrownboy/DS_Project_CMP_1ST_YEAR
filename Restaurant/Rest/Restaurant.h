@@ -22,8 +22,8 @@ private:
 	Queue<Order*> ActiveOrds;
 	int AutoPromotionlimit;
 	Order * DeliveredOrders[200];
+	
 	int Num_of_Deliverd_Orders = 0;
-
 	/* it will be queue bc there is no way to treat with any element except the first one but in the normal orders
 	I will make it a list(OR binary search tree ) bc  the program can search for an order to promote it to VIP
 	and in VIP orders I will make it by(priority queue using (heap OR Binary search tree  ))
@@ -58,14 +58,13 @@ public:
 	void UpdateMoto(int currTS);
 	void ProcessOrders(int currTS, string & a, string & b, string & c, string & d);
 	void DrawActiveOrds();
-
+	//void Set_NoAllMoto();
 	bool OrdersDone();
 	void output();
 	void Add_Delivered_Order(Order*);
 	void Auto_Promotion(int); 
 	bool Returned_Done(); 
 	void Update_tables(int);
-	
 
 };
 

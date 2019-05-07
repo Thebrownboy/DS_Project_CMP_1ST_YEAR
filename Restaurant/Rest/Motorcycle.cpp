@@ -23,7 +23,7 @@ int Motorcycle::GetID()
 	return ID;
 }
 
-ORD_TYPE  Motorcycle::GetORD_Type()
+ORD_TYPE  Motorcycle::Get_Type()
 {
 	return type;
 }
@@ -66,7 +66,7 @@ int Motorcycle::Get_ReturnTS()
 bool Motorcycle::isDamaged()
 {
 	// Moto health is a function of speed & total distance 
-	return speed * numDeliveredOrds + totDistace > 10000;
+	return speed * numDeliveredOrds + totDistace >=100;
 }
 
 Motorcycle::Motorcycle()
@@ -92,6 +92,11 @@ void Motorcycle::AddDist(int d)
 int Motorcycle::Get_totDist()
 {
 	return totDistace;
+}
+
+int Motorcycle::Get_noDelv()
+{
+	return numDeliveredOrds;
 }
 
 bool Motorcycle::operator >(Motorcycle & M)const 
