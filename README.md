@@ -11,7 +11,7 @@
    5. InRestaurant orders: they are the orders that won't be delivered by motos they will be in the restaurant and they have no service time and they assigned on tables .
 - **This prorgram has three Events Arrival_Event , cancellation_Event and promtion_Event**
    1. Arrival_Event: It is the Event when the order reaches the restaurant then it enters its region and put with its type
-   2. cancellation_Event: It is the event that cancel an order "No oreder can be cancelled if it is assigned in a moto ".
+   2. cancellation_Event: It is the event that cancel an order "No order can be cancelled if it is assigned in a moto ".
    3. Promotion_Event: It is the Event that promote the Normal order to a VIP order if the client pays extra money "the order will be promoted automaticllay if its wating time exceeds a certain time".
 - **This program consists of three modes: StepByStep mode  , silent mode and interactive mode**
     1. StepByStep: Here  every 2 seconds  the  system will allow the active orders to be assign in the available motorcycles , the program will be excuted by itself without any entring from the user , what happened will be displayed on the screen  and the statistics will be displayed and saved in the output file .
