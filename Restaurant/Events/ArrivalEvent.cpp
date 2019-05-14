@@ -65,64 +65,11 @@ void ArrivalEvent::Execute(Restaurant* pRest)
 	}
 	else
 		pRest->Get_region(this->OrdRegion)->insert_INREst(PO);
-
-
-
-
-		
+	
 }
 
 ArrivalEvent::~ArrivalEvent()
 {
 }
 	
-	///*if (this->OrdRegion == 0) 
-	//{
-	//	if (this->OrdType == 0)
-	//		pRest->Get_region(0)->insert_norm(PO);
-	//	else if (this->OrdType == 1)
-	//		pRest->Get_region(0)->insert_frozorder(PO);
-	//	else if (this->OrdType == 2)
-	//		pRest->Get_region(0)->insert_viporder(PO);
-	//
-	//}
-	//else if (this->OrdRegion == 1)
-	//{
-	//	if (this->OrdType == 0)
-	//		pRest->Get_region(1)->insert_norm(PO);
-	//	else if (this->OrdType == 1)
-	//		pRest->Get_region(1)->insert_frozorder(PO);
-	//	else if (this->OrdType == 2)
-	//		pRest->Get_region(1)->insert_viporder(PO);
-	//
-	//}
-	//else if (this->OrdRegion == 2) 
-	//{
-	//	if (this->OrdType == 0)
-	//		pRest->Get_region(2)->insert_norm(PO);
-	//	else if (this->OrdType == 1)
-	//		pRest->Get_region(2)->insert_frozorder(PO);
-	//	else if (this->OrdType == 2)
-	//		pRest->Get_region(2)->insert_viporder(PO);
-	//}
-	//else
-	//{
-	//	if (this->OrdType == 0)
-	//		pRest->Get_region(3)->insert_norm(PO);
-	//	else if (this->OrdType == 1)
-	//		pRest->Get_region(3)->insert_frozorder(PO);
-	//	else if (this->OrdType == 2)
-	//		pRest->Get_region(3)->insert_viporder(PO);
-	//}*/
-	///pRest->ActiveOrds.enqueue(pO)
-	/*Order*pOrder = new Order(OrderID, OrdType, OrdRegion, OrdDistance, OrdMoney, EventTime);
 	
-	if (OrdType == TYPE_NRM)
-		pRest->Get_region(OrdRegion)->insert_norm(*pOrder);
-	else if (OrdType == TYPE_VIP)
-		pRest->Get_region(OrdRegion)->insert_viporder(*pOrder);
-	else
-		pRest->Get_region(OrdRegion)->insert_frozorder(*pOrder);*/
-
-
-     /* end sir sayed modification*/
