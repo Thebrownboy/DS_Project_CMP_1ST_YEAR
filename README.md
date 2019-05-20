@@ -1,6 +1,6 @@
 # DS_Project_CMP_1ST_YEAR :fire::collision: 
 ### Eat and  Fly :pizza::hamburger::fork_and_knife:
-#### It is a program  coded with C++ using Data structures and Algorthims to bulid a simulation to a restaurant system that will help the mangers of the restaurant to manage , get statistics to the income of the restaurant and  helping them improving the service 
+#### It is a program  coded with C++ using Data structures and Algorthims to bulid a simulation to a restaurant system that will help the mangers of the restaurant to manage , get statistics to the income of the restaurant and  helping them improving the service. 
 # Description:
 - **This program is simulation to restaurant that has four regions ,every region has five types of orders: VIP ,Frozen , Normal ordres,Party and InRestaurant orders and  three types of motorcycles VIP,Frozen and Normal and every restaurant has some tables that is required for InRestaurant orders.**
    1. VIP orders: they are the orders for VIP persons and it has priority depending on the distance between the restaurant and the client , the money that is payed for the order and the arrivial time of the order and the more priority is the less waiting  time that will take and any motos can deliver this order.
